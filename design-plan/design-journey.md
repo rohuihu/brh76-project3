@@ -16,78 +16,78 @@ Be clear and concise in your writing. Bullets points are encouraged.
 You can use bullet points and lists, or full paragraphs, or a combo, whichever is appropriate. The writing should be solid draft quality.
 
 ### Audiences (Milestone 1)
+
 > Who are your site's audiences?
 > Briefly explain who the intended audiences are for your project website.
 > **DO NOT INVENT RANDOM AUDIENCES HERE!** Use the audiences from the requirements.
 
-_Consumer_: TODO
+_Consumer_: Consumers are parents with developing children.  They are interested in providing nature-rich places around their homes and pick plants that will engage their children in gardening projects or provide year-round interest.
 
-_Site Administrator_: TODO
+_Site Administrator_: Members of the Playful Plants Project.  They are researchers at Cornell University
 
 
 ### _Consumer_ Audience Goals (Milestone 1)
+
 > Document your audience's goals.
 > List each goal below. There is no specific number of goals required for this, but you need enough to do the job.
 > **DO NOT INVENT RANDOM GOALS HERE OR STEREOTYPE HERE!** Your goals are things that your users want accomplish when using the site (e.g. print a list of plants). These are informed by the Playful Plants objectives. Review the assignment's requirements for details.
 
-_Consumer_ Goal 1: TODO: Brief Title
+_Consumer_ Goal 1: Print a list of plants for reference when gardening.
 
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO
+  - I will make the site printable using the @media print query.  Then, I'll reorganize content so that the list of plants is only printed out and nothing else.
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO
+  - I think this is best because one of the interests of the parents is to help engage children in gardening projects.  If the parents are able to print a list of plants without having to get their device dirty, that would be beneficial for them.
 
-_Consumer_ Goal 2: TODO
+_Consumer_ Goal 2: To be able to filter specific plants.
 
-TODO
+- I will make the site display some images and some information (such as the types of play supported) when the parents view the initial plant.
+- I think this is beneficial because from the objectives, parents want to be able to tailor their selections.  If the parent is able to sort and filter specific plants to their liking, it will be nice to view them in a way they can understand the information.
 
-_Consumer_ Goal 3: TODO
+_Consumer_ Goal 3: To be able to view additional details.
 
-TODO
-
-TODO: ...
+- The parents should be able to tap/click into a plant's name so that they can see more details.  It's a bit too much to throw a lot of information if they are initially viewing it, so letting them click into each plant so that they can view additional details will help them understand information about each plant in a more organized way.
 
 
 ### _Consumer_ Persona (Milestone 1)
+
 > Use the goals you identified above to develop a persona of your site's audience.
 > Create your persona using GenderMag's customizable personas.
 > Take a screenshot and include it here. Persona must be visible in Markdown Preview; do not use PDF format!
 
-TODO
+![Consumer Persona](consumer-persona.jpg)
 
 
 ### _Administrator_ Audience Goals (Milestone 1)
+
 > Document your audience's goals.
 > List each goal below. There is no specific number of goals required for this, but you need enough to do the job.
 > **DO NOT INVENT RANDOM GOALS HERE OR STEREOTYPE HERE!** Your goals are things that your users want accomplish when using the site (e.g. print a list of plants). These are informed by the Playful Plants objectives. Review the assignment's requirements for details.
 
-_Administrator_ Goal 1: TODO: Brief Title
+_Administrator_ Goal 1: Update the catalog consistently with login/logout features.
 
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO
+  - I will have a form that allows the administrator to add a plant to the catalog when they log in to the site.  In the form, I plan to allow a file upload so they can add a picture of the plant to the catalog. I will also have a feature to log in/out.
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO
+  - A form is the most usable way to add a plant to the catalog because it allows the administrator to just input information into some fields when needed.  Therefore, the member of the Playful Plants Project would have an efficient time adding the plant.  I think the login/logout site separates the consumer from the administrator, so I plan on displaying the administrative view when the admins log in.
 
-_Administrator_ Goal 2: TODO
+_Administrator_ Goal 2: Categorize plants according to play type.
 
-TODO
-
-_Administrator_ Goal 3: TODO
-
-TODO
-
-TODO: ...
+- I will display the catalog such that it tags each plant with their respective play types.
+- This is useful because while the audience will not be able to see it in the initial catalog design, it will help organize the plants so that they can see the full details of the plants.
 
 
 ### _Administrator_ Persona (Milestone 1)
+
 > Use the goals you identified above to develop a persona of your site's audience.
 > Create your persona using GenderMag's customizable personas.
 > Take a screenshot and include it here. Persona must be visible in Markdown Preview; do not use PDF format!
 
-TODO
+![Administrator Persona](admin-persona.jpg)
 
 
 ### Site Design (Milestone 1)
+
 > Document your _entire_ design process. **We want to see iteration!**
 > **Show us the evolution of your design from your first idea (sketch) to the final design you plan to implement (sketch).**
 > **Show us how you decided what data to display to each audience.**
@@ -98,36 +98,41 @@ TODO
 
 _Initial Designs / Design Iterations:_
 
-TODO
+![Design 1](design-1.jpeg)
 
+![Design 2](design-2.jpeg)
 
 _Final Design:_
 
-TODO
+![Design 3](design-3.jpeg)
+![Design Urls](design-urls.jpeg)
 
 
 ### Design Pattern Explanation/Reflection (Milestone 1)
+
 > Write a one paragraph (6-8 sentences) reflection explaining how you used design patterns for media catalogs in your site's final design.
 
-TODO
+I used many features to make my site as usable for both audiences as possible.  I designed buttons to login/out for administrators, specifically stating that it was for administrators.  I also designed the catalog so that it doesn't overload the user with too much information at first glance.  It has a neat layout and can be sorted and filtered with, just like in Project 2.  In the additional information page for the consumer, I was originally thinking of adding in what type of play the plant supports, but I eventually decided against it because it was information the user probably didn't need on a daily basis.
 
 
 ### Cognitive Styles Explanation/Reflection (Milestone 1)
+
 > Write a one paragraph (6-8 sentences) reflection explaining how your final design supports the cognitive styles of each persona.
 
 _Consumer Cognitive Styles Reflection:_
 
-TODO
+I used the personas to a very great extent.  Firstly, based off my consumer persona, Abi was a parent, so I decided to tailor the consumer design so that she would be familiar with the layout and format of things.  Using a tile-like format, she would have a visually appealing layout that she can easily figure out how to use.  I decided to make the tile design quite simple because I didn't want to throw a bunch of information at her face, I wanted it to be as if she were scrolling through products on a media site like Amazon.  If she's had familiar experiences, she would definitely be able to use the site based off of my designs.
 
 
 _Site Administrator Cognitive Styles Reflection:_
 
-TODO
+For Tim the administrator, I sort of made the design more ambiguous because TIm is familiar with technology and like playing around with things to get used to it.  By adding icons next to each plant, he would be inclined to understand what it means to edit (pencil icon) or delete (trash icon).  I also decided to put a login button on the upper right (inspired by INFO 2040 blog post site) so that Tim can see where to login.  Once he clicks the login button, I decidded to have a catalog displayed as in project two, with a few columns changed to accommodate the things we wanted to add to Project 3 (e.g. file upload, editable catalog, etc.).
 
 
 ## Implementation Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 
 ### Database Schema (Milestone 1)
+
 > Describe the structure of your database. You may use words or a picture. A bulleted list is probably the simplest way to do this. Make sure you include constraints for each field.
 > **Hint: You probably need a table for "entries", `tags`, `"entry"_tags`** (stores relationship between entries and tags), and a `users` tables.
 > **Hint: For foreign keys, use the singular name of the table + _id.** For example: `image_id` and `tag_id` for the `image_tags` (tags for each image) table.
@@ -140,6 +145,7 @@ Table: TODO
 
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
+
 > Plan _all_ of your database queries. You may use natural language, pseudocode, or SQL.
 
 ```
@@ -154,6 +160,7 @@ TODO: ...
 
 
 ### Code Planning (Milestone 1, Milestone 2, Milestone 3, Final Submission)
+
 > Plan any PHP code you'll need here using pseudocode.
 > Tip: Break this up by pages. It makes it easier to plan.
 
@@ -169,6 +176,7 @@ TODO: ...
 
 
 ### Accessibility Audit (Final Submission)
+
 > Tell us what issues you discovered during your accessibility audit.
 > What do you do to improve the accessibility of your site?
 
@@ -178,18 +186,21 @@ TODO
 ## Reflection (Final Submission)
 
 ### Audience (Final Submission)
+
 > Tell us how your final site meets the goals of your audiences. Be specific here. Tell us how you tailored your design, content, etc. to make your website usable for your personas.
 
 TODO
 
 
 ### Additional Design Justifications (Final Submission)
+
 > If you feel like you haven’t fully explained your design choices in the final submission, or you want to explain some functions in your site (e.g., if you feel like you make a special design choice which might not meet the final requirement), you can use the additional design justifications to justify your design choices. Remember, this is place for you to justify your design choices which you haven’t covered in the design journey. You don’t need to fill out this section if you think all design choices have been well explained in the design journey.
 
 TODO
 
 
 ### Self-Reflection (Final Submission)
+
 > Reflect on what you learned during this assignment. How have you improved from Project 2? What would you do differently next time?
 
 TODO
@@ -201,6 +212,7 @@ TODO
 
 
 ### Grading: Step-by-Step Instructions (Final Submission)
+
 > Write step-by-step instructions for the graders.
 > The project if very hard to grade if we don't understand how your site works.
 > For example, you must login before you can delete.
@@ -209,29 +221,35 @@ TODO
 _View all entries:_
 
 1. TODO
+
 2.
 
 _View all entries for a tag:_
 
 1. TODO
+
 2.
 
 _View a single entry's details:_
 
 1. TODO
+
 2.
 
 _How to insert and upload a new entry:_
 
 1. TODO
+
 2.
 
 _How to delete an entry:_
 
 1. TODO
+
 2.
 
 _How to edit and existing entry and its tags:_
 
 1. TODO
+
 2.
