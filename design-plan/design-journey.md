@@ -137,11 +137,43 @@ For Tim the administrator, I sort of made the design more ambiguous because TIm 
 > **Hint: You probably need a table for "entries", `tags`, `"entry"_tags`** (stores relationship between entries and tags), and a `users` tables.
 > **Hint: For foreign keys, use the singular name of the table + _id.** For example: `image_id` and `tag_id` for the `image_tags` (tags for each image) table.
 
-Table: TODO
+Table: entries
 
-- field1: TYPE {constraints...},
-- field2...
-- TODO
+- id: INTEGER {PK, U, NN, AI},
+- colloquial: INTEGER {U, NN},
+- genus: INTEGER {U, NN},
+- plant_id: TEXT {U, NN},
+- explore_constructive: INTEGER {NN},
+- explore_sensory: INTEGER {NN},
+- physical: INTEGER {NN},
+- imaginative: INTEGER {NN},
+- restorative: INTEGER {NN},
+- expressive: INTEGER {NN},
+- play_with_rules: INTEGER {NN},
+- bio_play: INTEGER {NN},
+- nooks: INTEGER {NN},
+- loose_parts: INTEGER {NN},
+- climb_swing: INTEGER {NN},
+- maze: INTEGER {NN},
+- unique_opp: INTEGER {NN},
+- perennial: INTEGER {NN},
+- annual: INTEGER {NN},
+- full_sun: INTEGER {NN},
+- partial_shade: INTEGER {NN},
+- full_shade: INTEGER {NN},
+- tag_id: INTEGER {NN}
+
+
+Table: tags
+
+- id: INTEGER {PK, U, NN, AI},
+- tag_name: INTEGER {NN}
+
+Table: users
+
+- id: INTEGER {PK, U, NN, AI},
+- username: TEXT {U, NN},
+- password: TEXT {U, NN}
 
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
