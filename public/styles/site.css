@@ -1,0 +1,197 @@
+html {
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+#introduction {
+  text-align: center;
+}
+
+
+.align-right {
+  display: flex;
+  justify-content:flex-end;
+}
+
+section.catalog-filter {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+section.tiles {
+  display:grid;
+  grid-gap: 15px;
+  grid-template-columns: 400px 350px;
+  grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) );
+  padding-right: 20px;
+  padding-left: 10px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 400px;
+  height: 350px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  justify-content: center;
+}
+
+.card h1 {
+  font-size: 18px;
+}
+
+.card h2 {
+  font-size: 15px;
+  font-style: italic;
+}
+
+.card h3 {
+  font-size: 12px;
+}
+
+.align-block {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 60px;
+}
+
+section.filter .radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+section.filter form {
+  display: inline-block;
+}
+
+section.filter form div {
+  margin: 6px 0;
+}
+
+section.filter #filter-submit {
+  margin: 8px 0;
+}
+
+.login {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  padding: 10px;
+  margin: 10px;
+}
+
+#login-header {
+  text-align: center;
+}
+
+section.login .form-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 4px;
+}
+
+section.login form {
+  display: inline-block;
+}
+
+.feedback {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+#login-submit {
+  margin: 8px 0;
+}
+
+#not-found-notice {
+  text-align: center;
+}
+
+table {
+  border-spacing: 0;
+
+  /* frame the table with a border on top and bottom */
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+table tr {
+  background-color: #e6f1fa;;
+}
+
+table tr:nth-child(even) {
+  /* alternate row color */
+  background-color: #d2e8c8;
+}
+
+/* table headers */
+table th {
+  text-align: left;
+  font-weight: bold;
+
+  background-color: #ffffff;
+  border-bottom: 1px solid #000000;
+
+  padding: 10px;
+  top: 0px;
+}
+
+/* table cells (not header data) */
+table td {
+  text-align: left;
+  font-weight: normal;
+
+  padding: 8px;
+  padding-right: 16px;
+}
+
+table td:last-child {
+  padding-right: 0;
+}
+
+ul li {
+  padding-right: 30px;
+  margin: 0px;
+  text-align: left;
+}
+
+#add-plant h3, #directions {
+  text-align: center;
+}
+
+#add-plant form {
+  display: inline-block;
+}
+
+#add-plant form div {
+  margin: 6px 0;
+}
+
+#add-plant {
+  width:40%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.add-confirmation p, .add-confirmation a{
+  text-align: center;
+  font-weight: bold;
+  color: #000000;
+}

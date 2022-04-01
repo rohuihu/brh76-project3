@@ -25,6 +25,12 @@ if (preg_match('/^\/public\//', $request_uri) || $request_uri == '/favicon.ico')
   return False;
 } else if (match_routes($request_uri, '/')) {
   require 'pages/home.php';
+} else if (match_routes($request_uri, '/plant-details')) {
+  require 'pages/details.php';
+} else if (match_routes($request_uri, '/admin-login')) {
+  require 'pages/login.php';
+} else if (match_routes($request_uri, '/admin-catalog')) {
+  require 'pages/catalog.php';
 } else {
   error_log("  404 Not Found: " . $request_uri);
   http_response_code(404);
