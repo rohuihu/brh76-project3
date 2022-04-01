@@ -140,8 +140,8 @@ For Tim the administrator, I sort of made the design more ambiguous because TIm 
 Table: entries
 
 - id: INTEGER {PK, U, NN, AI},
-- colloquial: INTEGER {U, NN},
-- genus: INTEGER {U, NN},
+- colloquial: TEXT {U, NN},
+- genus: TEXT {U, NN},
 - plant_id: TEXT {U, NN},
 - explore_constructive: INTEGER {NN},
 - explore_sensory: INTEGER {NN},
@@ -181,11 +181,35 @@ Table: users
 > Plan _all_ of your database queries. You may use natural language, pseudocode, or SQL.
 
 ```
-TODO: Plan a query
+In init.sql:
+// create entries database
+CREATE TABLE entries (
+  // put all fields from entries database schema here
+)
+
+// insert all existing records for entries
+INSERT INTO entries (// all fields) VALUES (// all values)
+
+// create tags database
+CREATE TABLE tags (
+  // put all fields from tags database schema here
+)
+
+// insert all existing records for tags
+INSERT INTO tags (// all fields) VALUES (// all values)
+
+// create users database
+CREATE TABLE users (
+  // put all fields from users database schema here
+)
+
+// insert all existing records for users
+INSERT INTO users (// all fields) VALUES (// all values)
 ```
 
 ```
-TODO: Plan another query
+// add plant into database in catalog.php:
+INSERT INTO entries (// all fields) VALUES (get from add plant form in admin view)
 ```
 
 TODO: ...
@@ -197,7 +221,14 @@ TODO: ...
 > Tip: Break this up by pages. It makes it easier to plan.
 
 ```
-TODO: WRITE YOUR PSEUDOCODE HERE, between the back-tick lines.
+In home.php: be able to sort entries and filter entries
+// create sql query parts
+// create bool values to see if checkboxes are checked
+// create sticky values
+// make an filter_by array
+// if certain radio button checked, then add that value to the array
+// if more than 0 things are in array, write where clause of sql query that filters records by those fields
+// if sort by has radio button checked then write order by clause of sql query to sort by alphabetical order
 ```
 
 ```
