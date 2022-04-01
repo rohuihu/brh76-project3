@@ -63,7 +63,7 @@
         <h1><a href="/admin-login">Login as Administrator</a></h1>
       </div>
     </section>
-
+    <!-- All images from the plant photos zip folder except personal artwork -->
     <section class="tiles">
       <div class="card">
         <h1>Cutleaf Weeping BirchÂ</h1>
