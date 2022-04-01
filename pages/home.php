@@ -69,6 +69,7 @@
         <h1>Cutleaf Weeping BirchÂ</h1>
         <h2>Betula pendula 'Dalecarlica'Â</h2>
         <h3>General Classification: Tree</h3>
+        <!-- Image source: Personal artwork by Bella Hu -->
         <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
       </div>
       <div class="card">
