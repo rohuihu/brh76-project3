@@ -105,6 +105,9 @@ _Initial Designs / Design Iterations:_
 _Final Design:_
 
 ![Design 3](design-3.jpeg)
+
+Additionally, the editing page from
+
 ![Design Urls](design-urls.jpeg)
 
 To the editing plants page: /edit-plants
@@ -145,31 +148,19 @@ Table: entries
 - colloquial: TEXT {U, NN},
 - genus: TEXT {U, NN},
 - plant_id: TEXT {U, NN},
-- explore_constructive: INTEGER {NN},
-- explore_sensory: INTEGER {NN},
-- physical: INTEGER {NN},
-- imaginative: INTEGER {NN},
-- restorative: INTEGER {NN},
-- expressive: INTEGER {NN},
-- play_with_rules: INTEGER {NN},
-- bio_play: INTEGER {NN},
-- nooks: INTEGER {NN},
-- loose_parts: INTEGER {NN},
-- climb_swing: INTEGER {NN},
-- maze: INTEGER {NN},
-- unique_opp: INTEGER {NN},
-- perennial: INTEGER {NN},
-- annual: INTEGER {NN},
-- full_sun: INTEGER {NN},
-- partial_shade: INTEGER {NN},
-- full_shade: INTEGER {NN},
+
+
+Table: entries_tags
+
+- id: INTEGER {PK, U, NN, AI}
+- entry_id: INTEGER {NN},
 - tag_id: INTEGER {NN}
 
 
 Table: tags
 
 - id: INTEGER {PK, U, NN, AI},
-- tag_name: INTEGER {NN}
+- tag_name: TEXT {NN}
 
 Table: users
 
