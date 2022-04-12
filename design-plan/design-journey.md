@@ -107,6 +107,8 @@ _Final Design:_
 ![Design 3](design-3.jpeg)
 ![Design Urls](design-urls.jpeg)
 
+To the editing plants page: /edit-plants
+
 
 ### Design Pattern Explanation/Reflection (Milestone 1)
 
