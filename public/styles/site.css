@@ -31,6 +31,7 @@ section.tiles {
   grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) );
   padding-right: 20px;
   padding-left: 10px;
+  text-decoration: none;
 }
 
 .card {
@@ -41,19 +42,27 @@ section.tiles {
   text-align: center;
   font-family: arial;
   justify-content: center;
+  text-decoration: none;
+}
+
+.card a {
+  text-decoration: none;
 }
 
 .card h1 {
   font-size: 18px;
+  text-decoration: none;
 }
 
 .card h2 {
   font-size: 15px;
   font-style: italic;
+  text-decoration: none;
 }
 
 .card h3 {
   font-size: 12px;
+  text-decoration: none;
 }
 
 .align-block {
@@ -102,6 +111,29 @@ section.login .form-label {
   align-items: center;
   gap: 10px;
   margin: 4px;
+}
+
+#plant-genus-name, #plant-colloquial-name, #plant-class {
+  text-align: center;
+}
+
+#details-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+#details-flex img {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+#details-flex div {
+  padding: 10px;
+  margin: 40px;
 }
 
 section.login form {

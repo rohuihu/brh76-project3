@@ -66,11 +66,15 @@
     <!-- All images from the plant photos zip folder except personal artwork -->
     <section class="tiles">
       <div class="card">
-        <h1>Cutleaf Weeping BirchÂ</h1>
-        <h2>Betula pendula 'Dalecarlica'Â</h2>
-        <h3>General Classification: Tree</h3>
-        <!-- Image source: Personal artwork by Bella Hu -->
-        <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
+        <a href="/plant-details">
+          <div>
+            <h1>Cutleaf Weeping BirchÂ</h1>
+            <h2>Betula pendula 'Dalecarlica'Â</h2>
+            <h3>General Classification: Tree</h3>
+            <!-- Image source: Personal artwork by Bella Hu -->
+            <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
+          </div>
+        </a>
       </div>
       <div class="card">
         <h1>High Mallow</h1>

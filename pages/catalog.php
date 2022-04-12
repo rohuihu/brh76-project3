@@ -17,8 +17,12 @@ $records = $result->fetchAll();
   <section class="catalog">
     <div class="align-block">
       <h3>Catalog</h3>
+      <h3>
+        <a href="/">Logout Administrator View</a>
+      </h3>
       <table>
         <tr>
+          <th>Action</th>
           <th>Name</th>
           <th>ID</th>
           <th>Play Type Categorization</th>
@@ -28,6 +32,19 @@ $records = $result->fetchAll();
         <?php foreach ($records as $record) { ?>
           <tr>
             <!-- add plant names -->
+            <td>
+              <ul>
+                <li>
+                  <div>
+                    <a href="/edit-plants">Edit Plants</a>
+                  </div>
+                </li>
+                <li>
+                  Delete Plant
+                </li>
+              </ul>
+            </td>
+
             <td>
               <ul>
                 <li>

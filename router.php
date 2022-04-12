@@ -31,6 +31,8 @@ if (preg_match('/^\/public\//', $request_uri) || $request_uri == '/favicon.ico')
   require 'pages/login.php';
 } else if (match_routes($request_uri, '/admin-catalog')) {
   require 'pages/catalog.php';
+} else if (match_routes($request_uri, '/edit-plants')) {
+  require 'pages/edit.php';
 } else {
   error_log("  404 Not Found: " . $request_uri);
   http_response_code(404);
