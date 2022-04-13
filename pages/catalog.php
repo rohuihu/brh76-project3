@@ -1,5 +1,5 @@
 <?php $title = 'Catalog - Playful Plants Project';
-$db = open_sqlite_db('tmp/site.sqlite');
+// $db = open_sqlite_db('tmp/site.sqlite');
 $result = exec_sql_query($db, 'SELECT * FROM plants;');
 $records = $result->fetchAll();
 ?>

@@ -1,4 +1,7 @@
 <?php $title = 'Playful Plants Project';
+
+$db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,31 +30,31 @@
           </div>
           <h3>Filter By:</h3>
           <div class="radio">
-            <input type="radio" name="class" id="shrub" value="shrub" <?php echo htmlspecialchars($sticky_shrub) ?> />
+            <input type="checkbox" name="shrub" id="shrub" <?php echo htmlspecialchars($sticky_shrub) ?> />
             <label for="shrub">Shrub</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="grass" value="grass" <?php echo htmlspecialchars($sticky_grass) ?> />
+            <input type="checkbox" name="grass" id="grass" value="grass" <?php echo htmlspecialchars($sticky_grass) ?> />
             <label for="grass">Grass</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="vine" value="vine" <?php echo htmlspecialchars($sticky_vine) ?> />
+            <input type="checkbox" name="vine" id="vine" value="vine" <?php echo htmlspecialchars($sticky_vine) ?> />
             <label for="vine">Vine</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="tree" value="tree" <?php echo htmlspecialchars($sticky_tree) ?> />
+            <input type="checkbox" name="tree" id="tree" value="tree" <?php echo htmlspecialchars($sticky_tree) ?> />
             <label for="tree">Tree</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="flower" value="flower" <?php echo htmlspecialchars($sticky_flower) ?> />
+            <input type="checkbox" name="flower" id="flower" value="flower" <?php echo htmlspecialchars($sticky_flower) ?> />
             <label for="flower">Flower</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="groundcover" value="groundcover" <?php echo htmlspecialchars($sticky_groundcover) ?> />
+            <input type="checkbox" name="groundcover" id="groundcover" value="groundcover" <?php echo htmlspecialchars($sticky_groundcover) ?> />
             <label for="groundcover">Groundcover</label>
           </div>
           <div class="radio">
-            <input type="radio" name="class" id="other" value="other" <?php echo htmlspecialchars($sticky_other) ?> />
+            <input type="checkbox" name="other" id="other" value="other" <?php echo htmlspecialchars($sticky_other) ?> />
             <label for="other">Other (Moss, fern, vegetables, etc.)</label>
           </div>
           <div class="align-right">

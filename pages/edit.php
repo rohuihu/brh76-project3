@@ -11,5 +11,5 @@
 </head>
 
 <body>
-  <h1>Implement details page</h1>
+  <h1>Implement edit page</h1>
 </body>
