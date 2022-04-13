@@ -148,6 +148,13 @@ Table: entries
 - colloquial: TEXT {U, NN},
 - genus: TEXT {U, NN},
 - plant_id: TEXT {U, NN},
+- file_ext: TEXT {NN},
+- perennial: INTEGER {NN},
+- annual: INTEGER {NN},
+- full_sun: INTEGER {NN},
+- partial_shade: INTEGER {NN},
+- full_shade: INTEGER {NN},
+- class: INTEGER {NN}
 
 
 Table: entries_tags
@@ -166,7 +173,7 @@ Table: users
 
 - id: INTEGER {PK, U, NN, AI},
 - username: TEXT {U, NN},
-- password: TEXT {U, NN}
+- password_str: TEXT {NN}
 
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
