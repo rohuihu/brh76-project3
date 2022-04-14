@@ -106,7 +106,7 @@ _Final Design:_
 
 ![Design 3](design-3.jpeg)
 
-Additionally, the editing page from
+Additionally, I plan to design an "edit" page for the plant records that need to be edited.
 
 ![Design Urls](design-urls.jpeg)
 
