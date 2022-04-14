@@ -212,7 +212,11 @@ INSERT INTO users (// all fields) VALUES (// all values)
 INSERT INTO entries (// all fields) VALUES (get from add plant form in admin view)
 ```
 
-TODO: ...
+// getting record from individual tables:
+// example: get all records from entries table
+$result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
+$records_entries = $result_entries->fetchAll();
+
 
 
 ### Code Planning (Milestone 1, Milestone 2, Milestone 3, Final Submission)
@@ -229,6 +233,9 @@ In home.php: be able to sort entries and filter entries
 // if certain radio button checked, then add that value to the array
 // if more than 0 things are in array, write where clause of sql query that filters records by those fields
 // if sort by has radio button checked then write order by clause of sql query to sort by alphabetical order
+
+// build http query when going to details page: use a href and the http_build_query function and create an array inside with all fields needed
+// querying database to place entries into cards and catalogs will be similar to project 2 - use a for loop and conditional statements
 ```
 
 ```
