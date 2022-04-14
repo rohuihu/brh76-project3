@@ -1,7 +1,8 @@
 <?php $title = 'Playful Plants Project';
 
 $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
-
+$result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
+$records_entries = $result_entries->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,41 +69,47 @@ $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
     </section>
     <!-- All images from the plant photos zip folder except personal artwork -->
     <section class="tiles">
-      <div class="card">
-        <a href="/plant-details">
-          <div>
-            <h1>Cutleaf Weeping BirchÂ</h1>
-            <h2>Betula pendula 'Dalecarlica'Â</h2>
-            <h3>General Classification: Tree</h3>
-            <!-- Image source: Personal artwork by Bella Hu -->
-            <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
-          </div>
-        </a>
-      </div>
-      <div class="card">
-        <h1>High Mallow</h1>
-        <h2>Malva sylvestris</h2>
-        <h3>General Classification: Flower</h3>
-        <img src="/public/uploads/entries/FL_27.jpg" alt="High Mallow">
-      </div>
-      <div class="card">
-        <h1>Zebra Grass</h1>
-        <h2>Miscanthus sinensis 'Zebrinus'</h2>
-        <h3>General Classification: Grass</h3>
-        <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
-      </div>
-      <div class="card">
-        <h1>Pincushion Moss</h1>
-        <h2>Leucobryum glaucum</h2>
-        <h3>General Classification: Other</h3>
-        <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
-      </div>
-      <div class="card">
-        <h1>Blue Violet</h1>
-        <h2>Viola sororia</h2>
-        <h3>General Classification: Groundcover</h3>
-        <img src="/public/uploads/entries/GR_15.jpg" alt="Blue Violet">
-      </div>
+      <?php foreach ($records_entries as $record_entries) { ?>
+        <div class="card">
+          <a href="/plant-details?<?php echo http_build_query(array(
+                                    'colloquial' => $record_entries['colloquial'],
+                                    'genus' => $record_entries['genus'],
+                                    'plant_id' => $record_entries['plant_id'],
+                                    'file_ext' => $record_entries['file_ext'],
+                                    'class' => $record_entries['class']
+                                  )) ?>">
+            <div>
+              <h1><?php echo htmlspecialchars($record_entries["colloquial"]) ?></h1>
+              <h2><?php echo htmlspecialchars($record_entries["genus"]) ?></h2>
+              <h3>General Classification:
+                <?php if (htmlspecialchars($record_entries["class"] == 0)) { ?>
+                  Shrub
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 1)) { ?>
+                  Grass
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 2)) { ?>
+                  Vine
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 3)) { ?>
+                  Tree
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 4)) { ?>
+                  Flower
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 5)) { ?>
+                  Groundcover
+                <?php } ?>
+                <?php if (htmlspecialchars($record_entries["class"] == 6)) { ?>
+                  Other
+                <?php } ?>
+              </h3>
+              <!-- Image source: Personal artwork by Bella Hu -->
+              <img src="/public/uploads/entries/<?php echo htmlspecialchars($record_entries["plant_id"] . "." . $record_entries["file_ext"]) ?>" alt="No picture provided">
+            </div>
+          </a>
+        </div>
+      <?php } ?>
     </section>
   </section>
 

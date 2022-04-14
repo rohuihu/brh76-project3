@@ -1,7 +1,11 @@
 <?php $title = 'Catalog - Playful Plants Project';
-// $db = open_sqlite_db('tmp/site.sqlite');
-$result = exec_sql_query($db, 'SELECT * FROM plants;');
-$records = $result->fetchAll();
+$db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
+$result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
+$records_entries = $result_entries->fetchAll();
+
+$result_entries_tags = exec_sql_query($db, 'SELECT * FROM entries_tags;');
+$records_entries_tags = $result_entries_tags->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,11 +29,11 @@ $records = $result->fetchAll();
           <th>Action</th>
           <th>Name</th>
           <th>ID</th>
+          <th>Growth Needs</th>
           <th>Play Type Categorization</th>
-          <th>Play Opportunities</th>
         </tr>
 
-        <?php foreach ($records as $record) { ?>
+        <?php foreach ($records_entries as $record_entry) { ?>
           <tr>
             <!-- add plant names -->
             <td>
@@ -48,95 +52,81 @@ $records = $result->fetchAll();
             <td>
               <ul>
                 <li>
-                  <?php echo htmlspecialchars($record["colloquial"]) ?>
+                  <?php echo htmlspecialchars($record_entry["colloquial"]) ?>
                 </li>
                 <li id="scientific">
-                  <?php echo htmlspecialchars($record["genus"]) ?>
+                  <?php echo htmlspecialchars($record_entry["genus"]) ?>
+                </li>
+                <li>
+                  General classification: <?php if (htmlspecialchars($record_entries["class"] == 0)) { ?>
+                    Shrub
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 1)) { ?>
+                    Grass
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 2)) { ?>
+                    Vine
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 3)) { ?>
+                    Tree
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 4)) { ?>
+                    Flower
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 5)) { ?>
+                    Groundcover
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entry["class"] == 6)) { ?>
+                    Other
+                  <?php } ?>
                 </li>
               </ul>
             </td>
 
             <!-- add plant id -->
             <td>
-              <?php echo htmlspecialchars($record["plant_id"]) ?>
+              <?php echo htmlspecialchars($record_entry["plant_id"] . "." . $record_entry["file_ext"]) ?>
+            </td>
+
+            <!-- add growth needs -->
+            <td>
+              <ul>
+                <?php if ($record_entry["perennial"] == 1) { ?>
+                  <li>
+                    Perennial plant
+                  </li>
+                <?php } ?>
+                <?php if ($record_entry["annual"] == 1) { ?>
+                  <li>
+                    Annual plant
+                  </li>
+                <?php } ?>
+                <?php if ($record_entry["full_sun"] == 1) { ?>
+                  <li>
+                    Needs full sun
+                  </li>
+                <?php } ?>
+                <?php if ($record_entry["partial_shade"] == 1) { ?>
+                  <li>
+                    Needs partial shade
+                  </li>
+                <?php } ?>
+                <?php if ($record_entry["full_shade"] == 1) { ?>
+                  <li>
+                    Needs full shade
+                  </li>
+                <?php } ?>
             </td>
 
             <!-- add play type categorization -->
             <td>
               <ul>
-                <?php if ($record["explore_constructive"] == 1) { ?>
-                  <li>
-                    Exploratory Constructive Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["explore_sensory"] == 1) { ?>
-                  <li>
-                    Exploratory Sensory Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["physical"] == 1) { ?>
-                  <li>
-                    Physical Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["imaginative"] == 1) { ?>
-                  <li>
-                    Imaginative Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["restorative"] == 1) { ?>
-                  <li>
-                    Restorative Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["expressive"] == 1) { ?>
-                  <li>
-                    Expressive Play
-                  </li>
-                <?php } ?>
-                <?php if ($record["play_with_rules"] == 1) { ?>
-                  <li>
-                    Play With Rules
-                  </li>
-                <?php } ?>
-                <?php if ($record["bio_play"] == 1) { ?>
-                  <li>
-                    Bio Play
-                  </li>
-                <?php } ?>
+                <li>
+                  <?php 'SELECT * FROM entries_tags WHERE (entry_id == ' . $record_entry['plant_id'] . ')' ?>
+                </li>
               </ul>
             </td>
 
-            <!-- add play opportunities -->
-            <td>
-              <ul>
-                <?php if ($record["nooks"] == 1) { ?>
-                  <li>
-                    Nooks or Secret Spaces
-                  </li>
-                <?php } ?>
-                <?php if ($record["loose_parts"] == 1) { ?>
-                  <li>
-                    Loose Parts/Play Props
-                  </li>
-                <?php } ?>
-                <?php if ($record["climb_swing"] == 1) { ?>
-                  <li>
-                    Climbing or Swinging
-                  </li>
-                <?php } ?>
-                <?php if ($record["maze"] == 1) { ?>
-                  <li>
-                    Mazes/Labyrinths/Spirals
-                  </li>
-                <?php } ?>
-                <?php if ($record["unique_opp"] == 1) { ?>
-                  <li>
-                    Evocative or Unique Elements
-                  </li>
-                <?php } ?>
-              </ul>
-            </td>
 
           </tr>
         <?php } ?>

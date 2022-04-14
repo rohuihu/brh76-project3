@@ -15,7 +15,7 @@
   <h2 id="plant-genus-name">Betula pendula 'Dalecarlica'Â</h2>
   <h3 id="plant-class">General Classification: Tree</h3>
   <div id="details-flex">
-    <img src="/public/uploads/entries/generic-plant-scaled.jpg" alt="No picture provided">
+    <img src="/public/uploads/entries/0.jpg" alt="No picture provided">
     <div>
       <h3>General Care:</h3>
       <ul>
