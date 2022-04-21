@@ -36,3 +36,5 @@ $password_feedback_class = 'hidden';
   </section>
 
 </body>
+
+</html>

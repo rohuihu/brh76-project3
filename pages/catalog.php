@@ -3,9 +3,275 @@ $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 $result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
 $records_entries = $result_entries->fetchAll();
 
-$result_entries_tags = exec_sql_query($db, 'SELECT * FROM entries_tags;');
-$records_entries_tags = $result_entries_tags->fetchAll();
+define("MAX_FILE_SIZE", 1000000);
 
+// confirmation and validity booleans
+$show_confirmation = False;
+$show_form = True;
+$form_valid = False;
+$record_inserted = False;
+$plant_id_not_unique = False;
+$colloquial_not_unique = False;
+$genus_not_unique = False;
+
+// values
+$colloquial = '';
+$genus = '';
+$plant_id = '';
+$explore_constructive = '';
+$explore_sensory = '';
+$physical = '';
+$imaginative = '';
+$restorative = '';
+$expressive = '';
+$play_with_rules = '';
+$bio_play = '';
+$class = '';
+$class_id = 6;
+$upload_filename = "0";
+$upload_ext = "jpg";
+
+// feedback classes
+$colloquial_feedback_class = 'hidden';
+$genus_feedback_class = 'hidden';
+$plant_id_feedback_class = 'hidden';
+$play_type_feedback_class = 'hidden';
+$class_feedback_class = 'hidden';
+$care_feedback_class = 'hidden';
+
+// for adding a plant
+if (isset($_POST['add-plant'])) {
+  $colloquial = trim($_POST['colloquial-name']);
+  $genus = trim($_POST['scientific-name']);
+  $plant_id = trim($_POST['plant-id']);
+  $explore_constructive_1 = trim($_POST['explore-constructive-1']);
+  $explore_sensory_1 = trim($_POST['explore-sensory-1']);
+  $physical_1 = trim($_POST['physical-play-1']);
+  $imaginative_1 = trim($_POST['imaginative-play-1']);
+  $restorative_1 = trim($_POST['restorative-play-1']);
+  $expressive_1 = trim($_POST['expressive-play-1']);
+  $play_with_rules_1 = trim($_POST['play-with-rules-1']);
+  $bio_play_1 = trim($_POST['bio-play-1']);
+  $class = trim($_POST['class']);
+  $perennial = trim($_POST['perennial']);
+  $annual = trim($_POST['annual']);
+  $full_sun = trim($_POST['full-sun']);
+  $partial_shade = trim($_POST['partial-shade']);
+  $full_shade = trim($_POST['full-shade']);
+
+
+  $form_valid = True;
+
+  $upload = $_FILES['upload-img'];
+
+  if ($upload['error'] == UPLOAD_ERR_OK) {
+
+    // Get the name of file
+    $upload_filename = basename($upload['name']);
+
+    // Get the file extension
+    $upload_ext = strtolower(pathinfo($upload_filename, PATHINFO_EXTENSION));
+  } else {
+    $upload_filename = "0";
+    $upload_ext = "jpg";
+  }
+
+  if (empty($colloquial)) {
+    $form_valid = False;
+    $colloquial_feedback_class = '';
+  } else {
+    $records = exec_sql_query(
+      $db,
+      "SELECT * FROM entries WHERE (colloquial = :colloquial);",
+      array(
+        ':colloquial' => $colloquial
+      )
+    )->fetchAll();
+    if (count($records) > 0) {
+      $form_valid = False;
+      $colloquial_not_unique = True;
+    }
+  }
+  if (empty($genus)) {
+    $form_valid = False;
+    $genus_feedback_class = '';
+  } else {
+    $records = exec_sql_query(
+      $db,
+      "SELECT * FROM entries WHERE (genus = :genus);",
+      array(
+        ':genus' => $genus
+      )
+    )->fetchAll();
+    if (count($records) > 0) {
+      $form_valid = False;
+      $genus_not_unique = True;
+    }
+  }
+  if (empty($plant_id)) {
+    $form_valid = False;
+    $plant_id_feedback_class = '';
+  } else {
+    $records = exec_sql_query(
+      $db,
+      "SELECT * FROM entries WHERE (plant_id = :plant_id);",
+      array(
+        ':plant_id' => $plant_id
+      )
+    )->fetchAll();
+    if (count($records) > 0) {
+      $form_valid = False;
+      $plant_id_not_unique = True;
+    }
+  }
+
+  // At least one check box checked:
+  if (empty($explore_constructive_1) && empty($explore_sensory_1) && empty($physical_1) && empty($imaginative_1) && empty($restorative_1) && empty($expressive_1) && empty($play_with_rules_1) && empty($bio_play_1)) {
+    $form_valid = False;
+    $play_type_feedback_class = '';
+  }
+  if (empty($perennial) && empty($annual) && empty($full_sun) && empty($partial_shade) && empty($full_shade)) {
+    $form_valid = False;
+    $care_feedback_class = '';
+  }
+
+  // One radio button checked
+  if (empty($class)) {
+    $form_valid = False;
+    $class_feedback_class = '';
+  } else {
+    if ($class == 'shrub') {
+      $class_id = 0;
+    } elseif ($class == 'grass') {
+      $class_id = 1;
+    } elseif ($class == 'vine') {
+      $class_id = 2;
+    } elseif ($class == 'tree') {
+      $class_id = 3;
+    } elseif ($class == 'flower') {
+      $class_id = 4;
+    } elseif ($class == 'groundcover') {
+      $class_id = 5;
+    } elseif ($class == 'other') {
+      $class_id = 6;
+    }
+  }
+
+
+  if ($form_valid) {
+    $show_confirmation = True;
+    $show_form = False;
+    $result_entries = exec_sql_query(
+      $db,
+      "INSERT INTO entries (colloquial, genus, plant_id, image_id, file_ext, perennial, annual, full_sun, partial_shade, full_shade, class) VALUES (:colloquial, :genus, :plant_id, :image_id, :file_ext, :perennial, :annual, :full_sun, :partial_shade, :full_shade, :class);",
+      array(
+        ':colloquial' => $colloquial,
+        ':genus' => $genus,
+        ':plant_id' => $plant_id,
+        ':image_id' => $upload_filename,
+        ':file_ext' => $upload_ext,
+        ':perennial' => (int)((bool)$perennial),
+        ':annual' => (int)((bool)$annual),
+        ':full_sun' => (int)((bool)$full_sun),
+        ':partial_shade' => (int)((bool)$partial_shade),
+        ':full_shade' => (int)((bool)$full_shade),
+        ':class' => (int)$class_id
+      )
+    );
+    $record_id = $db->lastInsertId('id');
+    $img_records = exec_sql_query(
+      $db,
+      "SELECT * FROM entries WHERE (image_id = :image_id);",
+      array(
+        ':image_id' => $image_id
+      )
+    )->fetchAll();
+    if (count($imgrecords) == 0) {
+      $id_filename = 'public/uploads/entries/' . $record_id . '.' . $upload_ext;
+      move_uploaded_file($upload["tmp_name"], $id_filename);
+    }
+
+    if (!empty($explore_constructive_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 1
+      ));
+    }
+    if (!empty($explore_sensory_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 2
+      ));
+    }
+    if (!empty($physical)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 3
+      ));
+    }
+    if (!empty($imaginative_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 4
+      ));
+    }
+    if (!empty($restorative_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 5
+      ));
+    }
+    if (!empty($expressive_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 6
+      ));
+    }
+    if (!empty($play_with_rules_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 7
+      ));
+    }
+    if (!empty($bio_play_1)) {
+      exec_sql_query($db, "INSERT INTO entries_tags (entry_id, tag_id) VALUES (:id, :tag_id);", array(
+        ':id' => $record_id,
+        ':tag_id' => 8
+      ));
+    }
+
+
+    if ($result_entries) {
+      $record_inserted = True;
+    }
+    // submit form, post confirmation message in place of page
+  } else {
+    // make sticky values
+    $sticky_colloquial = $colloquial;
+    $sticky_genus = $genus;
+    $sticky_plant_id = $plant_id;
+    $sticky_explore_constructive_1 = (empty($explore_constructive_1) ? '' : 'checked');
+    $sticky_explore_sensory_1 = (empty($explore_sensory_1) ? '' : 'checked');
+    $sticky_physical_1 = (empty($physical_1) ? '' : 'checked');
+    $sticky_imaginative_1 = (empty($imaginative_1) ? '' : 'checked');
+    $sticky_restorative_1 = (empty($restorative_1) ? '' : 'checked');
+    $sticky_expressive_1 = (empty($expressive_1) ? '' : 'checked');
+    $sticky_play_with_rules_1 = (empty($play_with_rules_1) ? '' : 'checked');
+    $sticky_bio_play_1 = (empty($bio_play_1) ? '' : 'checked');
+    $sticky_shrub = ($class == 'shrub' ? 'checked' : '');
+    $sticky_grass = ($class == 'grass' ? 'checked' : '');
+    $sticky_vine = ($class == 'vine' ? 'checked' : '');
+    $sticky_tree = ($class == 'tree' ? 'checked' : '');
+    $sticky_flower = ($class == 'flower' ? 'checked' : '');
+    $sticky_groundcover = ($class == 'groundcover' ? 'checked' : '');
+    $sticky_other = ($class == 'other' ? 'checked' : '');
+    $sticky_perennial = (empty($perennial) ? '' : 'checked');
+    $sticky_annual = (empty($annual) ? '' : 'checked');
+    $sticky_full_sun = (empty($full_sun) ? '' : 'checked');
+    $sticky_partial_shade = (empty($partial_shade) ? '' : 'checked');
+    $sticky_full_shade = (empty($full_shade) ? '' : 'checked');
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +294,8 @@ $records_entries_tags = $result_entries_tags->fetchAll();
         <tr>
           <th>Action</th>
           <th>Name</th>
-          <th>ID</th>
+          <th>Plant ID</th>
+          <th>Image</th>
           <th>Growth Needs</th>
           <th>Play Type Categorization</th>
         </tr>
@@ -58,7 +325,7 @@ $records_entries_tags = $result_entries_tags->fetchAll();
                   <?php echo htmlspecialchars($record_entry["genus"]) ?>
                 </li>
                 <li>
-                  General classification: <?php if (htmlspecialchars($record_entries["class"] == 0)) { ?>
+                  General classification: <?php if (htmlspecialchars($record_entry["class"] == 0)) { ?>
                     Shrub
                   <?php } ?>
                   <?php if (htmlspecialchars($record_entry["class"] == 1)) { ?>
@@ -85,7 +352,12 @@ $records_entries_tags = $result_entries_tags->fetchAll();
 
             <!-- add plant id -->
             <td>
-              <?php echo htmlspecialchars($record_entry["plant_id"] . "." . $record_entry["file_ext"]) ?>
+              <?php echo htmlspecialchars($record_entry["plant_id"]) ?>
+            </td>
+
+            <!-- Add plant image -->
+            <td class="catalog-img">
+              <img src="/public/uploads/entries/<?php echo htmlspecialchars($record_entry['image_id']) . "." .  htmlspecialchars($record_entry['file_ext']); ?>" alt="<?php echo htmlspecialchars($record_entry['colloquial']) ?> picture">
             </td>
 
             <!-- add growth needs -->
@@ -121,13 +393,27 @@ $records_entries_tags = $result_entries_tags->fetchAll();
             <!-- add play type categorization -->
             <td>
               <ul>
-                <li>
-                  <?php 'SELECT * FROM entries_tags WHERE (entry_id == ' . $record_entry['plant_id'] . ')' ?>
-                </li>
+                <?php
+                $tags = exec_sql_query($db, "SELECT
+                entries.id AS 'entries.id',
+                entries.colloquial AS 'entries.colloquial',
+                tags.id AS 'tags.id',
+                tags.tag_name AS 'tags.tag_name',
+                entries_tags.entry_id AS 'entries_tags.entry_id',
+                entries_tags.tag_id AS 'entries_tags.tag_id'
+                FROM
+                tags
+                INNER JOIN entries_tags ON
+                (entries_tags.tag_id = tags.id)
+                INNER JOIN entries ON
+                (entries_tags.entry_id = entries.id) WHERE entries.id = " . $record_entry["id"] . ";")->fetchAll();
+                foreach ($tags as $tag) { ?>
+                  <li>
+                    <?php echo htmlspecialchars($tag["tags.tag_name"]); ?>
+                  </li>
+                <?php } ?>
               </ul>
             </td>
-
-
           </tr>
         <?php } ?>
       </table>
@@ -138,7 +424,7 @@ $records_entries_tags = $result_entries_tags->fetchAll();
   <div id="add-plant">
     <h3>Add a Plant!</h3>
     <p id="directions">Fill out the form below to add a plant to the database.</p>
-    <form id="add-form" method="post" action="/" novalidate>
+    <form id="add-form" method="post" action="/admin-catalog" enctype="multipart/form-data" novalidate>
 
       <div id="feedback-colloquial" class="feedback <?php echo $colloquial_feedback_class; ?>">Please enter the plant's colloquial name.</div>
       <?php if ($colloquial_not_unique) { ?>
@@ -165,6 +451,43 @@ $records_entries_tags = $result_entries_tags->fetchAll();
       <div class="form-label">
         <label for="plant-id">Plant ID:</label>
         <input type="text" name="plant-id" id="plant-id" value="<?php echo htmlspecialchars($sticky_plant_id); ?>" />
+      </div>
+
+      <!-- Upload Images -->
+      <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_FILE_SIZE; ?>" />
+
+      <div class="form-label">
+        <label for="upload-img">Upload Image: </label>
+        <input type="file" name="upload-img" id="upload-img" accept="image/png, image/jpg, image/svg" />
+      </div>
+
+      <div>
+        <p>What is the classification of the plant?</p>
+      </div>
+      <div id="feedback-class" class="feedback <?php echo $class_feedback_class; ?>">Please select a plant classification.</div>
+
+      <div class="form-label">
+        <input id="shrub" type="radio" name="class" value="shrub" <?php echo htmlspecialchars($sticky_shrub); ?> /><label for="shrub">Shrub</label>
+      </div>
+      <div class="form-label">
+        <input id="grass" type="radio" name="class" value="grass" <?php echo htmlspecialchars($sticky_grass); ?> /><label for="grass">Grass</label>
+      </div>
+      <div class="form-label">
+        <input id="vine" type="radio" name="class" value="vine" <?php echo htmlspecialchars($sticky_vine); ?> /><label for="vine">Vine</label>
+      </div>
+      <div class="form-label">
+        <input id="tree" type="radio" name="class" value="tree" <?php echo htmlspecialchars($sticky_tree); ?> /><label for="tree">Tree</label>
+      </div>
+      <div class="form-label">
+        <input id="flower" type="radio" name="class" value="flower" <?php echo htmlspecialchars($sticky_flower); ?> /><label for="flower">Flower</label>
+      </div>
+      <div class="form-label">
+        <input id="groundcover" type="radio" name="class" value="groundcover" <?php echo htmlspecialchars($sticky_groundcover); ?> />
+        <label for="groundcover">Groundcover</label>
+      </div>
+      <div class="form-label">
+        <input id="other" type="radio" name="class" value="other" <?php echo htmlspecialchars($sticky_other); ?> />
+        <label for="other">Other</label>
       </div>
 
       <div>
@@ -204,38 +527,42 @@ $records_entries_tags = $result_entries_tags->fetchAll();
         <input type="checkbox" name="bio-play-1" id="bio-play-1" <?php echo htmlspecialchars($sticky_bio_play_1); ?> />
         <label for="bio-play-1">Bio Play</label>
       </div>
-
       <div>
-        <p>What kind of opportunities for play does the plant promote? Check the boxes below:</p>
+        <p>What care does the plant need? Check the boxes below:</p>
       </div>
 
-      <div id="feedback-play-opportunities" class="feedback <?php echo $play_opportunities_feedback_class; ?>">Please select at least one way the plant provides play opportunities.</div>
+      <div id="feedback-care" class="feedback <?php echo $care_feedback_class; ?>">Please select at least one form of care.</div>
       <div class="form-label">
-        <input type="checkbox" name="nooks-1" id="nooks-1" <?php echo htmlspecialchars($sticky_nooks_1); ?> />
-        <label for="nooks-1">Nooks or Secret Spaces</label>
+        <input type="checkbox" name="perennial" id="perennial" <?php echo htmlspecialchars($sticky_perennial); ?> />
+        <label for="perennial">Perennial</label>
       </div>
       <div class="form-label">
-        <input type="checkbox" name="props-1" id="props-1" <?php echo htmlspecialchars($sticky_loose_parts_1); ?> />
-        <label for="props-1">Loose Parts/Play Props</label>
+        <input type="checkbox" name="annual" id="annual" <?php echo htmlspecialchars($sticky_annual); ?> />
+        <label for="annual">Annual</label>
       </div>
       <div class="form-label">
-        <input type="checkbox" name="climb-swing-1" id="climb-swing-1" <?php echo htmlspecialchars($sticky_climb_swing_1); ?> />
-        <label for="climb-swing-1">Climbing and Swinging</label>
+        <input type="checkbox" name="full-sun" id="full-sun" <?php echo htmlspecialchars($sticky_full_sun); ?> />
+        <label for="full-sun">Needs full sun</label>
       </div>
       <div class="form-label">
-        <input type="checkbox" name="mazes-1" id="mazes-1" <?php echo htmlspecialchars($sticky_maze_1); ?> />
-        <label for="mazes-1">Mazes/Labyrinths/Spirals</label>
+        <input type="checkbox" name="partial-shade" id="partial-shade" <?php echo htmlspecialchars($sticky_partial_shade); ?> />
+        <label for="partial-shade">Needs partial shade</label>
       </div>
       <div class="form-label">
-        <input type="checkbox" name="unique-1" id="unique-1" <?php echo htmlspecialchars($sticky_unique_1); ?> />
-        <label for="unique-1">Evocative or Unique Elements</label>
+        <input type="checkbox" name="full-shade" id="full-shade" <?php echo htmlspecialchars($sticky_full_shade); ?> />
+        <label for="full-shade">Needs full shade</label>
       </div>
       <div class="align-right">
         <input id="add-submit" type="submit" name="add-plant" value="Add Plant to Catalog" />
       </div>
     </form>
   </div>
-  <div class="add-confirmation">
-    <p>The plant, <?php echo htmlspecialchars($colloquial); ?>, has been added to the catalog. <a href="/">Add another plant</a>!</p>
-  </div>
+  <?php if ($show_confirmation) { ?>
+    <div class="add-confirmation">
+      <p>The plant, <?php echo htmlspecialchars($colloquial); ?>, has been added to the catalog. <a href="/">Add another plant</a>!</p>
+    </div>
+  <?php } ?>
+
 </body>
+
+</html>

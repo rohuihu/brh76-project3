@@ -156,6 +156,11 @@ section.login form {
   text-align: center;
 }
 
+.catalog-img img {
+  width: 100px;
+  height: 75px;
+}
+
 table {
   border-spacing: 0;
 
