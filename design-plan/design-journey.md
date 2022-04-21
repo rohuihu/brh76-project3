@@ -230,8 +230,10 @@ In home.php: be able to sort entries and filter entries
 // create bool values to see if checkboxes are checked
 // create sticky values
 // make an filter_by array
-// if certain radio button checked, then add that value to the array
+// if filter by has checkbox buttons checked, then add that to array
 // if more than 0 things are in array, write where clause of sql query that filters records by those fields
+// use join clause to get all elements in table -> fetch it
+
 // if sort by has radio button checked then write order by clause of sql query to sort by alphabetical order
 
 // build http query when going to details page: use a href and the http_build_query function and create an array inside with all fields needed
@@ -239,7 +241,13 @@ In home.php: be able to sort entries and filter entries
 ```
 
 ```
-TODO: WRITE MORE PSEUDOCODE HERE, between the back-tick lines.
+In catalog.php, use much of the same as home.php in terms of creating the table
+// use join clause to get all tags of a plant in table -> fetch it, then print it in the form of a list
+// add plant form
+  // implement by referencing project 2 code
+  // tags vs entries - make two insert queries; 1 for entries and 1 for tags
+    // use lastInsert('id) to get the entries.id of the most recent record inserted
+  // uploading images - if image is not uploaded, set file name and extension to 0.jpg; else upload the image and make a path to it
 ```
 
 TODO: ...
