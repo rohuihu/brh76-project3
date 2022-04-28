@@ -8,6 +8,9 @@ h1 {
 
 #introduction {
   text-align: center;
+  margin: auto;
+  margin-bottom: 20px;
+  width: 70%;
 }
 
 
@@ -16,12 +19,18 @@ h1 {
   justify-content:flex-end;
 }
 
+form.login .align-right {
+  display: flex;
+  justify-content:flex-end;
+  float:right;
+}
+
 section.catalog-filter {
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 10px;
+  /* padding-left: 10px; */
 }
 
 section.tiles {
@@ -105,7 +114,7 @@ section.filter #filter-submit {
   text-align: center;
 }
 
-section.login .form-label {
+section.login .form-label, form.edit .form-label {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -122,7 +131,7 @@ section.login .form-label {
   flex-direction: row;
   align-items: center;
   margin: auto;
-  width: 50%;
+  width: 70%;
   padding: 10px;
 }
 
@@ -133,7 +142,7 @@ section.login .form-label {
 
 #details-flex div {
   padding: 10px;
-  margin: 40px;
+  margin: 30px;
 }
 
 section.login form {
@@ -209,6 +218,12 @@ ul li {
   text-align: left;
 }
 
+.catalog-intro {
+  text-align: center;
+  width: 65%;
+  margin: auto;
+}
+
 #add-plant h3, #directions {
   text-align: center;
 }
@@ -231,4 +246,213 @@ ul li {
   text-align: center;
   font-weight: bold;
   color: #000000;
+}
+
+#edit-plant form {
+  display: inline-block;
+}
+
+#edit-plant form div {
+  margin: 6px 0;
+}
+
+#edit-plant {
+  width:40%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+
+nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+
+}
+
+.nav ul li {
+  margin: 0;
+  padding: 10px;
+  display: inline-block;
+}
+
+.nav ul li a {
+  text-decoration: none;
+}
+
+#nav-logout {
+  float: right;
+}
+.home-body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+@media screen and (max-width: 600px){
+  .align-right {
+    display: flex;
+    justify-content:flex-end;
+  }
+  section.catalog-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  section.tiles {
+    display:flex;
+    /* grid-gap: 15px;
+    grid-template-columns: 400px 350px; */
+    /* grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) ); */
+    flex-direction: column;
+    padding-right: 20px;
+    padding-left: 10px;
+    text-decoration: none;
+  }
+  .login {
+    display: none;
+  }
+
+  #details-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: auto; */
+    width: 100%;
+    padding: 0px;
+  }
+
+  #details-flex div {
+    padding: 0px;
+    margin: 30px;
+  }
+
+  form.login {
+    width: 320px;
+  }
+
+  ul.login {
+    list-style: none;
+    padding: 0;
+  }
+
+  ul.login li {
+    margin-bottom: 4px;
+  }
+
+  form.login .label-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 40px;
+    padding: 10px;
+  }
+
+  form.login .label-input> :first-child {
+    min-width: 140px;
+    text-align: right;
+    margin-right: 4px;
+  }
+
+  form.login .label-input> :last-child {
+    flex-grow: 1;
+    min-width: 0;
+    margin: 4px;
+  }
+
+  footer {
+    font-size: 4px;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1100px) {
+  .align-right {
+    display: flex;
+    justify-content:flex-end;
+  }
+  section.catalog-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+
+  section.tiles {
+    display:flex;
+    /* grid-gap: 15px;
+    grid-template-columns: 400px 350px; */
+    /* grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) ); */
+    flex-direction: column;
+    padding-right: 20px;
+    padding-left: 10px;
+    text-decoration: none;
+  }
+  .login {
+    display: none;
+  }
+
+  section.filter .radio{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  }
+  section.filter form {
+    display: inline-flex;
+    flex-direction: row;
+    margin: auto;
+    /* width: 70%; */
+  }
+
+  section.filter form div {
+    margin: 6px 0;
+  }
+
+  section.filter #filter-submit {
+    margin: 8px 0;
+  }
+
+  .filter-ipad {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .ipad {
+    display:flex;
+    flex-direction: column;
+  }
+
+  #details-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    /* width: 100%; */
+    padding: 0px;
+  }
+
+  #details-flex div {
+    padding: 0px;
+    margin: 30px;
+  }
+
 }

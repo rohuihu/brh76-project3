@@ -5,12 +5,15 @@ CREATE TABLE entries (
   plant_id TEXT NOT NULL,
   image_id TEXT NOT NULL,
   file_ext TEXT NOT NULL,
-  perennial INTEGER NOT NULL,
-  annual INTEGER NOT NULL,
-  full_sun INTEGER NOT NULL,
-  partial_shade INTEGER NOT NULL,
-  full_shade INTEGER NOT NULL,
-  class INTEGER NOT NULL
+  explore_constructive INTEGER NOT NULL,
+  explore_sensory INTEGER NOT NULL,
+  physical INTEGER NOT NULL,
+  imaginative INTEGER NOT NULL,
+  restorative INTEGER NOT NULL,
+  expressive INTEGER NOT NULL,
+  play_with_rules INTEGER NOT NULL,
+  bio_play INTEGER NOT NULL,
+  hardiness TEXT NOT NULL
 );
 
 CREATE TABLE entries_tags (
@@ -26,11 +29,57 @@ CREATE TABLE tags (
   tag_name TEXT NOT NULL
 );
 
+CREATE TABLE groups (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE sessions (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  user_id INTEGER NOT NULL,
+  session TEXT NOT NULL UNIQUE,
+  last_login TEXT NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
 CREATE TABLE users (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  name TEXT NOT NULL,
   username TEXT NOT NULL UNIQUE,
-  password_str TEXT NOT NULL
+  password TEXT NOT NULL
 );
+
+-- password: monkey
+INSERT INTO
+  users (id, name, username, password)
+VALUES
+  (
+    1,
+    'Kyle Harms',
+    'kyle',
+    '$2y$10$QtCybkpkzh7x5VN11APHned4J8fu78.eFXlyAMmahuAaNcbwZ7FH.'
+  );
+
+INSERT INTO
+  groups (id, name)
+VALUES
+  (1, 'admin');
+
+
+-- Memberships
+CREATE TABLE memberships (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  group_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY(group_id) REFERENCES groups(id),
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+-- User 'kyle' is a member of the 'admin' group.
+INSERT INTO
+  memberships (group_id, user_id)
+VALUES
+  (1, 1);
 
 
 INSERT INTO entries (
@@ -40,12 +89,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   1,
@@ -54,7 +106,8 @@ VALUES (
   'TR_07',
   '0',
   'jpg',
-  0, 0, 1, 1, 0, 3
+  1, 1, 1, 1, 1, 0, 0, 1,
+  '2-7'
 );
 
 INSERT INTO entries (
@@ -64,12 +117,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   2,
@@ -78,7 +134,8 @@ VALUES (
   'FL_37',
   '2',
   'jpg',
-  1, 0, 1, 1, 0, 4
+  0, 1, 1, 1, 0, 0, 0, 1,
+  '4-8'
 );
 
 INSERT INTO entries (
@@ -88,12 +145,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   3,
@@ -102,7 +162,8 @@ VALUES (
   'GA_16',
   '0',
   'jpg',
-  1, 0, 1, 0, 0, 1
+  1, 1, 1, 1, 1, 0, 1, 1,
+  '5-9'
 );
 
 INSERT INTO entries (
@@ -112,12 +173,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   4,
@@ -126,7 +190,8 @@ VALUES (
   'FE_13',
   '0',
   'jpg',
-  1, 0, 0, 1, 1, 6
+  0, 1, 0, 1, 1, 0, 0, 1,
+  '4-10'
 );
 
 INSERT INTO entries (
@@ -136,12 +201,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   5,
@@ -150,7 +218,8 @@ VALUES (
   'FL_13',
   '0',
   'jpg',
-  1, 0, 1, 1, 0, 4
+  0, 1, 1, 1, 0, 0, 0, 1,
+  '3-10'
 );
 
 INSERT INTO entries (
@@ -160,12 +229,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   6,
@@ -174,7 +246,8 @@ VALUES (
   'SH_12',
   '0',
   'jpg',
-  1, 0, 1, 1, 0, 0
+  0, 1, 1, 0, 0, 0, 0, 1,
+  '4-8'
 );
 
 INSERT INTO entries (
@@ -184,12 +257,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   7,
@@ -198,7 +274,8 @@ VALUES (
   'FL_11',
   '0',
   'jpg',
-  1, 0, 1, 1, 0, 4
+  0, 1, 0, 1, 1, 0, 0, 0,
+  '3-7'
 );
 
 INSERT INTO entries (
@@ -208,12 +285,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   8,
@@ -222,7 +302,8 @@ VALUES (
   'GR_15',
   '8',
   'jpg',
-  1, 0, 1, 1, 0, 5
+  0, 1, 1, 0, 0, 0, 0, 1,
+  '3-7'
 );
 
 INSERT INTO entries (
@@ -232,12 +313,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   9,
@@ -246,7 +330,8 @@ VALUES (
   'GA_03',
   '9',
   'jpg',
-  1, 0, 1, 1, 0, 1
+  1, 1, 1, 1, 1, 0, 1, 1,
+  '5-9'
 );
 
 INSERT INTO entries (
@@ -256,12 +341,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   10,
@@ -270,7 +358,8 @@ VALUES (
   'VI_02',
   '10',
   'jpg',
-  1, 0, 1, 1, 0, 2
+  0, 1, 1, 1, 0, 0, 0, 1,
+  '3-7'
 );
 
 INSERT INTO entries (
@@ -280,12 +369,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   11,
@@ -294,7 +386,8 @@ VALUES (
   'FL_12',
   '11',
   'jpg',
-  1, 0, 0, 1, 1, 4
+  0, 1, 1, 1, 0, 0, 0, 1,
+  '3-9'
 );
 
 INSERT INTO entries (
@@ -304,12 +397,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   12,
@@ -318,7 +414,8 @@ VALUES (
   'FE_11',
   '12',
   'jpg',
-  1, 0, 0, 1, 1, 6
+  0, 1, 0, 1, 1, 0, 0, 1,
+  '3-7'
 );
 
 INSERT INTO entries (
@@ -328,12 +425,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   13,
@@ -342,7 +442,8 @@ VALUES (
   'TR_04',
   '13',
   'jpg',
-  1, 0, 1, 1, 0, 3
+  1, 1, 1, 0, 1, 0, 0, 1,
+  '3-9'
 );
 
 INSERT INTO entries (
@@ -352,12 +453,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   14,
@@ -366,7 +470,8 @@ VALUES (
   'FL_35',
   '14',
   'jpg',
-  1, 0, 1, 0, 0, 4
+  0, 1, 1, 0, 0, 0, 0, 1,
+  '3-7'
 );
 
 INSERT INTO entries (
@@ -376,12 +481,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   15,
@@ -390,7 +498,8 @@ VALUES (
   'SH_22',
   '15',
   'jpg',
-  1, 0, 1, 1, 0, 0
+  0, 1, 1, 0, 0, 0, 0, 1,
+  '2-7'
 );
 
 INSERT INTO entries (
@@ -400,12 +509,15 @@ INSERT INTO entries (
   plant_id,
   image_id,
   file_ext,
-  perennial,
-  annual,
-  full_sun,
-  partial_shade,
-  full_shade,
-  class
+  explore_constructive,
+  explore_sensory,
+  physical,
+  imaginative,
+  restorative,
+  expressive,
+  play_with_rules,
+  bio_play,
+  hardiness
 )
 VALUES (
   16,
@@ -414,7 +526,8 @@ VALUES (
   'SH_07',
   '16',
   'jpg',
-  0, 0, 1, 1, 0, 0
+  0, 1, 1, 0, 0, 0, 0, 1,
+  '3-9'
 );
 
 INSERT INTO tags (
@@ -423,7 +536,7 @@ INSERT INTO tags (
 )
 VALUES (
   1,
-  'Exploratory Constructive Play'
+  'Shrub'
 );
 
 INSERT INTO tags (
@@ -432,7 +545,7 @@ INSERT INTO tags (
 )
 VALUES (
   2,
-  'Exploratory Sensory Play'
+  'Grass'
 );
 
 INSERT INTO tags (
@@ -441,7 +554,7 @@ INSERT INTO tags (
 )
 VALUES (
   3,
-  'Physical Play'
+  'Vine'
 );
 
 INSERT INTO tags (
@@ -450,7 +563,7 @@ INSERT INTO tags (
 )
 VALUES (
   4,
-  'Imaginative Play'
+  'Tree'
 );
 
 INSERT INTO tags (
@@ -459,7 +572,7 @@ INSERT INTO tags (
 )
 VALUES (
   5,
-  'Restorative Play'
+  'Flower'
 );
 
 INSERT INTO tags (
@@ -468,7 +581,7 @@ INSERT INTO tags (
 )
 VALUES (
   6,
-  'Expressive Play'
+  'Groundcovers'
 );
 
 INSERT INTO tags (
@@ -477,7 +590,7 @@ INSERT INTO tags (
 )
 VALUES (
   7,
-  'Play With Rules'
+  'Other'
 );
 
 INSERT INTO tags (
@@ -486,572 +599,461 @@ INSERT INTO tags (
 )
 VALUES (
   8,
-  'Bio Play'
+  'Perennial'
 );
 
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  1, 1, 1
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  2, 1, 2
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  3, 1, 3
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  4, 1, 4
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  5, 1, 5
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  6, 1, 8
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  7, 2, 2
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  8, 2, 3
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  9, 2, 4
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  10, 2, 8
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  11, 3, 1
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  12, 3, 2
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  13, 3, 3
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  14, 3, 4
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  15, 3, 5
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  16, 3, 7
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
-)
-VALUES (
-  17, 3, 8
-);
-
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
+INSERT INTO tags (
+  id,
+  tag_name
 )
 VALUES (
-  18, 4, 2
+  9,
+  'Annual'
 );
 
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
+INSERT INTO tags (
+  id,
+  tag_name
 )
 VALUES (
-  19, 4, 4
+  10,
+  'Full Sun'
 );
 
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
+INSERT INTO tags (
+  id,
+  tag_name
 )
 VALUES (
-  20, 4, 5
+  11,
+  'Partial Shade'
 );
 
-INSERT INTO entries_tags (
-  id, entry_id, tag_id
+INSERT INTO tags (
+  id,
+  tag_name
 )
 VALUES (
-  21, 4, 8
+  12,
+  'Full Shade'
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  22, 5, 2
+  1, 1, 4
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  23, 5, 3
+  2, 1, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  24, 5, 4
+  3, 1, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  25, 5, 8
+  4, 2, 5
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  26, 6, 2
+  5, 2, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  27, 6, 3
+  6, 2, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  28, 6, 8
+  7, 2, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  29, 7, 2
+  8, 3, 2
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  30, 7, 4
+  9, 3, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  31, 7, 5
+  10, 3, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  32, 8, 2
+  11, 4, 7
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  33, 8, 3
+  12, 4, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  34, 8, 8
+  13, 4, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  35, 9, 1
+  14, 4, 12
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  36, 9, 2
+  15, 5, 5
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  37, 9, 3
+  16, 5, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  38, 9, 5
+  17, 5, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  39, 9, 7
+  18, 5, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  40, 9, 8
+  19, 6, 1
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  41, 10, 1
+  20, 6, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  42, 10, 2
+  21, 6, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  43, 10, 3
+  22, 6, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  44, 10, 4
+  23, 7, 5
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  45, 10, 5
+  24, 7, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  46, 10, 7
+  25, 7, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  47, 10, 8
+  26, 7, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  48, 11, 2
+  27, 8, 6
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  49, 11, 3
+  28, 8, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  50, 11, 4
+  29, 8, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  51, 11, 5
+  30, 8, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  52, 11, 7
+  31, 9, 2
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  53, 11, 8
+  32, 9, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  54, 12, 1
+  33, 9, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  55, 12, 2
+  34, 9, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  56, 12, 3
+  35, 10, 3
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  57, 12, 4
+  36, 10, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  58, 12, 5
+  37, 10, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  59, 12, 7
+  38, 10, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  60, 12, 8
+  39, 11, 5
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  61, 13, 1
+  40, 11, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  62, 13, 2
+  41, 11, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  63, 13, 3
+  42, 11, 12
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  64, 13, 4
+  43, 12, 7
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  65, 13, 5
+  44, 12, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  66, 13, 8
+  45, 12, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  67, 14, 2
+  46, 12, 12
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  68, 14, 3
+  47, 13, 4
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  69, 14, 4
+  48, 13, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  70, 14, 5
+  49, 13, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  71, 14, 8
+  50, 13, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  72, 15, 2
+  51, 14, 5
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  73, 15, 3
+  52, 14, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  74, 15, 4
+  53, 14, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  75, 15, 5
+  54, 15, 1
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  76, 15, 8
+  55, 15, 8
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  77, 16, 2
+  56, 15, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  78, 16, 3
+  57, 15, 11
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  79, 16, 4
+  58, 16, 1
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  80, 16, 5
+  59, 16, 10
 );
 
 INSERT INTO entries_tags (
   id, entry_id, tag_id
 )
 VALUES (
-  81, 16, 8
+  60, 16, 11
 );

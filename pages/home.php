@@ -14,13 +14,14 @@ $expressive = (bool)trim($_GET['expressive-play'] ?? NULL);
 $play_with_rules = (bool)trim($_GET['play-with-rules'] ?? NULL);
 $bio_play = (bool)trim($_GET['bio-play'] ?? NULL);
 
-$shrub = (bool)trim($_GET['shrub'] ?? NULL);
-$grass = (bool)trim($_GET['grass'] ?? NULL);
-$vine = (bool)trim($_GET['vine'] ?? NULL);
-$tree = (bool)trim($_GET['tree'] ?? NULL);
-$flower = (bool)trim($_GET['flower'] ?? NULL);
-$groundcover = (bool)trim($_GET['groundcover'] ?? NULL);
-$other = (bool)trim($_GET['other'] ?? NULL);
+// $shrub = (bool)trim($_GET['shrub'] ?? NULL);
+// $grass = (bool)trim($_GET['grass'] ?? NULL);
+// $vine = (bool)trim($_GET['vine'] ?? NULL);
+// $tree = (bool)trim($_GET['tree'] ?? NULL);
+// $flower = (bool)trim($_GET['flower'] ?? NULL);
+// $groundcover = (bool)trim($_GET['groundcover'] ?? NULL);
+// $other = (bool)trim($_GET['other'] ?? NULL);
+$class = trim($_GET['class']);
 
 // make sticky values
 $sticky_explore_constructive = (empty($explore_constructive) ? '' : 'checked');
@@ -32,75 +33,100 @@ $sticky_expressive = (empty($expressive) ? '' : 'checked');
 $sticky_play_with_rules = (empty($play_with_rules) ? '' : 'checked');
 $sticky_bio_play = (empty($bio_play) ? '' : 'checked');
 
-$sticky_shrub = (empty($shrub) ? '' : 'checked');
-$sticky_grass = (empty($grass) ? '' : 'checked');
-$sticky_vine = (empty($vine) ? '' : 'checked');
-$sticky_tree = (empty($tree) ? '' : 'checked');
-$sticky_flower = (empty($flower) ? '' : 'checked');
-$sitcky_groundcover = (empty($groundcover) ? '' : 'checked');
-$sticky_other = (empty($other) ? '' : 'checked');
+$sticky_shrub = ($class == 'shrub' ? 'checked' : '');
+$sticky_grass = ($class == 'grass' ? 'checked' : '');
+$sticky_vine = ($class == 'vine' ? 'checked' : '');
+$sticky_tree = ($class == 'tree' ? 'checked' : '');
+$sticky_flower = ($class == 'flower' ? 'checked' : '');
+$sticky_groundcover = ($class == 'groundcover' ? 'checked' : '');
+$sticky_other = ($class == 'other' ? 'checked' : '');
+
+$sort_by = trim($_GET['sortby'] ?? NULL);
 
 $sticky_sort_colloquial_asc = ($sort_by == "Colloquial Name" ? 'checked' : '');
 $sticky_sort_genus_asc = ($sort_by == "Scientific Name" ? 'checked' : '');
 
-$sort_by = trim($_GET['sortby'] ?? NULL);
-
 // sorting parts
-$sql_select_part = "SELECT * FROM entries";
+$sql_select_part = '';
 $sql_where_part = '';
 $sql_order_part = '';
 $sql_filter_expressions = array();
 
 // filter
-$filter_by = array();
-if ($explore_constructive) {
-  array_push($filter_by, "(explore_constructive = 1)");
-}
-if ($explore_sensory) {
-  array_push($filter_by, "(explore_sensory = 1)");
-}
-if ($physical) {
-  array_push($filter_by, "(physical = 1)");
-}
-if ($imaginative) {
-  array_push($filter_by, "(imaginative = 1)");
-}
-if ($restorative) {
-  array_push($filter_by, "(restorative = 1)");
-}
-if ($expressive) {
-  array_push($filter_by, "(expressive = 1)");
-}
-if ($play_with_rules) {
-  array_push($filter_by, "(play_with_rules = 1)");
-}
-if ($bio_play) {
-  array_push($filter_by, "(bio_play = 1)");
-}
-if ($shrub) {
-  array_push($filter_by, "(class = 0)");
-}
-if ($grass) {
-  array_push($filter_by, "(class = 1)");
-}
-if ($vine) {
-  array_push($filter_by, "(class = 2)");
-}
-if ($tree) {
-  array_push($filter_by, "(class = 3)");
-}
-if ($flower) {
-  array_push($filter_by, "(class = 4)");
-}
-if ($groundcover) {
-  array_push($filter_by, "(class = 5)");
-}
-if ($other) {
-  array_push($filter_by, "(class = 6)");
+// $filter_by_play = array();
+$filter_by_class = array();
+// if ($explore_constructive) {
+//   array_push($filter_by_play, "(tags.id = 1)");
+// }
+// if ($explore_sensory) {
+//   array_push($filter_by_play, "(tags.id = 2)");
+// }
+// if ($physical) {
+//   array_push($filter_by_play, "(tags.id = 3)");
+// }
+// if ($imaginative) {
+//   array_push($filter_by_play, "(tags.id = 4)");
+// }
+// if ($restorative) {
+//   array_push($filter_by_play, "(tags.id = 5)");
+// }
+// if ($expressive) {
+//   array_push($filter_by_play, "(tags.id = 6)");
+// }
+// if ($play_with_rules) {
+//   array_push($filter_by_play, "(tags.id = 7)");
+// }
+// if ($bio_play) {
+//   array_push($filter_by_play, "(tags.id = 8)");
+// }
+if ($class == 'shrub') {
+  array_push($filter_by_class, "(tags.id = 1)");
+} elseif ($class == 'grass') {
+  array_push($filter_by_class, "(tags.id = 2)");
+} elseif ($class == 'vine') {
+  array_push($filter_by_class, "(tags.id = 3)");
+} elseif ($class == 'tree') {
+  array_push($filter_by_class, "(tags.id = 4)");
+} elseif ($class == 'flower') {
+  array_push($filter_by_class, "(tags.id = 5)");
+} elseif ($class == 'groundcover') {
+  array_push($filter_by_class, "(tags.id = 6)");
+} elseif ($class == 'other') {
+  array_push($filter_by_class, "(tags.id = 7)");
 }
 
-if (count($filter_by) > 0) {
-  $where_part = " WHERE " . implode(' OR ', $filter_by);
+if (count($filter_by_class) > 0) {
+  $sql_select_part = "SELECT entries.id AS 'id', entries.colloquial AS 'colloquial',
+  entries.genus AS 'genus',
+  entries.image_id AS 'image_id',
+  entries.file_ext AS 'file_ext',
+  tags.id AS 'tags.id',
+  tags.tag_name AS 'tags.tag_name',
+  entries_tags.entry_id AS 'entries_tags.entry_id',
+  entries_tags.tag_id AS 'entries_tags.tag_id'
+  FROM
+  tags
+  INNER JOIN entries_tags ON
+  (entries_tags.tag_id = tags.id)
+  INNER JOIN entries ON
+  (entries_tags.entry_id = entries.id)";
+  $sql_where_part = " WHERE " . implode(array_merge($filter_by_class));
+} else {
+  // for case where user didn't want to filter by anything
+  $sql_select_part = "SELECT entries.id AS 'id', entries.colloquial AS 'colloquial',
+  entries.genus AS 'genus',
+  entries.image_id AS 'image_id',
+  entries.file_ext AS 'file_ext',
+  tags.id AS 'tags.id',
+  tags.tag_name AS 'tags.tag_name',
+  entries_tags.entry_id AS 'entries_tags.entry_id',
+  entries_tags.tag_id AS 'entries_tags.tag_id'
+  FROM
+  tags
+  INNER JOIN entries_tags ON
+  (entries_tags.tag_id = tags.id)
+  INNER JOIN entries ON
+  (entries_tags.entry_id = entries.id) WHERE tags.id < 8";
 }
 
 // order by
@@ -111,7 +137,7 @@ if ($sort_by == "Colloquial Name") {
 } else {
   $sql_order_part = ";";
 }
-$sql_query = $sql_select_part . $where_part . $sql_order_part;
+$sql_query = $sql_select_part . $sql_where_part . $sql_order_part;
 $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -125,138 +151,137 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
 </head>
 
 <body>
+  <div class="home-body">
+    <?php include('includes/header.php'); ?>
+    <section class="login">
+      <?php if (is_user_logged_in()) { ?>
 
-  <?php include('includes/header.php'); ?>
-  <p id="introduction">Welcome to the Playful Plants Project Catalog! Here, you can find a list of plants that can help your child develop!</p>
-  <section class="catalog-filter">
-    <section class="filter">
-      <div class="align-block">
-        <form id="filter-form" method="get" action="/" novalidate>
-          <h3>Sort By:</h3>
-          <div class="radio">
-            <input id="sort-colloquial" type="radio" name="sortby" value="Colloquial Name" <?php echo $sticky_sort_colloquial_asc; ?> /><label for="sort-colloquial">Colloquial Name</label>
-          </div>
-          <div class="radio">
-            <input id="sort-genus" type="radio" name="sortby" value="Scientific Name" <?php echo $sticky_sort_genus_asc; ?> /><label for="sort-genus">Scientific Name</label>
-          </div>
-          <h3>Filter By:</h3>
-          <h4>Classification</h4>
-          <div class="radio">
-            <input type="checkbox" name="shrub" id="shrub" <?php echo htmlspecialchars($sticky_shrub) ?> />
-            <label for="shrub">Shrub</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="grass" id="grass" value="grass" <?php echo htmlspecialchars($sticky_grass) ?> />
-            <label for="grass">Grass</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="vine" id="vine" value="vine" <?php echo htmlspecialchars($sticky_vine) ?> />
-            <label for="vine">Vine</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="tree" id="tree" value="tree" <?php echo htmlspecialchars($sticky_tree) ?> />
-            <label for="tree">Tree</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="flower" id="flower" value="flower" <?php echo htmlspecialchars($sticky_flower) ?> />
-            <label for="flower">Flower</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="groundcover" id="groundcover" value="groundcover" <?php echo htmlspecialchars($sticky_groundcover) ?> />
-            <label for="groundcover">Groundcover</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="other" id="other" value="other" <?php echo htmlspecialchars($sticky_other) ?> />
-            <label for="other">Other (Moss, fern, vegetables, etc.)</label>
-          </div>
-          <h4>Play Type Categorization</h4>
-          <div class="radio">
-            <input type="checkbox" name="explore-constructive" id="explore-constructive" <?php echo htmlspecialchars($sticky_explore_constructive) ?> />
-            <label for="explore-constructive">Exploratory Constructive Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="explore-sensory" id="explore-sensory" <?php echo htmlspecialchars($sticky_explore_sensory) ?> />
-            <label for="explore-sensory">Exploratory Sensory Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="physical-play" id="physical-play" <?php echo htmlspecialchars($sticky_physical) ?> />
-            <label for="physical-play">Physical Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="imaginative-play" id="imaginative-play" <?php echo htmlspecialchars($sticky_imaginative) ?> />
-            <label for="imaginative-play">Imaginative Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="restorative-play" id="restorative-play" <?php echo htmlspecialchars($sticky_restorative) ?> />
-            <label for="restorative-play">Restorative Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="expressive-play" id="expressive-play" <?php echo htmlspecialchars($sticky_expressive) ?> />
-            <label for="expressive-play">Expressive Play</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="play-with-rules" id="play-with-rules" <?php echo htmlspecialchars($sticky_play_with_rules) ?> />
-            <label for="play-with-rules">Play With Rules</label>
-          </div>
-          <div class="radio">
-            <input type="checkbox" name="bio-play" id="bio-play" <?php echo htmlspecialchars($sticky_bio_play) ?> />
-            <label for="bio-play">Bio Play</label>
-          </div>
-          <div class="align-right">
-            <input id="filter-submit" name="filter-submit" type="submit" value="Filter" />
-          </div>
-        </form>
-      </div>
-      <div class="login">
-        <h1><a href="/admin-login">Login as Administrator</a></h1>
-      </div>
-    </section>
-    <!-- All images from the plant photos zip folder except personal artwork -->
-    <section class="tiles">
-      <?php foreach ($records_entries as $record_entries) { ?>
-        <div class="card">
-          <a href="/plant-details?<?php echo http_build_query(array(
-                                    'id' => $record_entries['id']
-                                    // 'colloquial' => $record_entries['colloquial'],
-                                    // 'genus' => $record_entries['genus'],
-                                    // 'plant_id' => $record_entries['plant_id'],
-                                    // 'file_ext' => $record_entries['file_ext'],
-                                    // 'class' => $record_entries['class']
-                                  )) ?>">
-            <div>
-              <h1><?php echo htmlspecialchars($record_entries["colloquial"]) ?></h1>
-              <h2><?php echo htmlspecialchars($record_entries["genus"]) ?></h2>
-              <h3>General Classification:
-                <?php if (htmlspecialchars($record_entries["class"] == 0)) { ?>
-                  Shrub
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 1)) { ?>
-                  Grass
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 2)) { ?>
-                  Vine
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 3)) { ?>
-                  Tree
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 4)) { ?>
-                  Flower
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 5)) { ?>
-                  Groundcover
-                <?php } ?>
-                <?php if (htmlspecialchars($record_entries["class"] == 6)) { ?>
-                  Other
-                <?php } ?>
-              </h3>
-              <!-- Image source: Personal artwork by Bella Hu -->
-              <img src="/public/uploads/entries/<?php echo htmlspecialchars($record_entries["image_id"] . "." . $record_entries["file_ext"]) ?>" alt="Image of <?php echo htmlspecialchars($record_entries["colloquial"]) ?>">
-            </div>
-          </a>
+        <div class="nav">
+          <nav>
+            <ul>
+              <a href="/admin-catalog">
+                <li>Back to Administrator View</li>
+              </a>
+              <a href="<?php echo logout_url(); ?>">
+                <li id="nav-logout">Logout Administrator View</li>
+              </a>
+
+            </ul>
+          </nav>
         </div>
       <?php } ?>
     </section>
-  </section>
+    <p id="introduction">Welcome to the Playful Plants Project Catalog! Here, you can find a list of plants that can help your child develop! Click on each plant to see its growth needs and other details!</p>
+
+    <section class="catalog-filter">
+      <section class="filter">
+        <div class="align-block">
+          <form id="filter-form" method="get" action="/" novalidate>
+            <div class="ipad">
+              <h3>Sort By:</h3>
+              <div class="filter-ipad">
+                <div class="radio">
+                  <input id="sort-colloquial" type="radio" name="sortby" value="Colloquial Name" <?php echo $sticky_sort_colloquial_asc; ?> /><label for="sort-colloquial">Colloquial Name</label>
+                </div>
+                <div class="radio">
+                  <input id="sort-genus" type="radio" name="sortby" value="Scientific Name" <?php echo $sticky_sort_genus_asc; ?> /><label for="sort-genus">Scientific Name</label>
+                </div>
+              </div>
+
+              <h3>Filter By:</h3>
+              <h4>Classification</h4>
+              <div class="filter-ipad">
+                <div class="radio">
+                  <input type="radio" name="class" id="shrub" value="shrub" <?php echo htmlspecialchars($sticky_shrub) ?> />
+                  <label for="shrub">Shrub</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="grass" value="grass" <?php echo htmlspecialchars($sticky_grass) ?> />
+                  <label for="grass">Grass</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="vine" value="vine" <?php echo htmlspecialchars($sticky_vine) ?> />
+                  <label for="vine">Vine</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="tree" value="tree" <?php echo htmlspecialchars($sticky_tree) ?> />
+                  <label for="tree">Tree</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="flower" value="flower" <?php echo htmlspecialchars($sticky_flower) ?> />
+                  <label for="flower">Flower</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="groundcover" value="groundcover" <?php echo htmlspecialchars($sticky_groundcover) ?> />
+                  <label for="groundcover">Groundcover</label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="class" id="other" value="other" <?php echo htmlspecialchars($sticky_other) ?> />
+                  <label for="other">Other (Moss, fern, vegetables, etc.)</label>
+                </div>
+              </div>
+              <div class="align-right">
+                <input id="filter-submit" name="filter-submit" type="submit" value="Filter" />
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <?php if (!is_user_logged_in()) { ?>
+          <div class="login">
+            <h1><a href="/admin-catalog">Login as Administrator</a></h1>
+          </div>
+        <?php } ?>
+      </section>
+      <!-- All images from the plant photos zip folder except personal artwork -->
+      <section class="tiles">
+
+        <?php foreach ($records_entries as $record_entries) { ?>
+          <div class="card">
+            <a href="/plant-details?<?php echo http_build_query(array(
+                                      'id' => $record_entries['id']
+                                    )) ?>">
+              <div>
+                <h1><?php echo htmlspecialchars($record_entries["colloquial"]) ?></h1>
+                <h2><?php echo htmlspecialchars($record_entries["genus"]) ?></h2>
+                <h3>General Classification:
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"]) == 'Shrub') { ?>
+                    Shrub
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"]) == 'Grass') { ?>
+                    Grass
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"]) == 'Vine') { ?>
+                    Vine
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"] == 'Tree')) { ?>
+                    Tree
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"] == 'Flower')) { ?>
+                    Flower
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"] == 'Groundcovers')) { ?>
+                    Groundcover
+                  <?php } ?>
+                  <?php if (htmlspecialchars($record_entries["tags.tag_name"] == 'Other')) { ?>
+                    Other
+                  <?php } ?>
+
+                </h3>
+                <!-- Image source: Personal artwork by Bella Hu -->
+                <img src="/public/uploads/entries/<?php echo htmlspecialchars($record_entries["image_id"] . "." . $record_entries["file_ext"]) ?>" alt="Image of <?php echo htmlspecialchars($record_entries["colloquial"]) ?>">
+
+              </div>
+            </a>
+          </div>
+        <?php } ?>
+        <?php
+        if (count($records_entries) == 0) { ?>
+          <p>No plant records found.</p>
+        <?php } ?>
+      </section>
+    </section>
+  </div>
 
 
 </body>
