@@ -155,7 +155,7 @@ Table: entries
 - partial_shade: INTEGER {NN},
 - full_shade: INTEGER {NN},
 - class: INTEGER {NN}
-
+CHANGED ABOVE TABLE - SEE MORE IN FINAL SUBMISSION DESIGN JUSTIFICATION
 
 Table: entries_tags
 
@@ -168,6 +168,7 @@ Table: tags
 
 - id: INTEGER {PK, U, NN, AI},
 - tag_name: TEXT {NN}
+
 
 Table: users
 
@@ -241,6 +242,12 @@ In home.php: be able to sort entries and filter entries
 ```
 
 ```
+In details.php, http params to query the id of the plant you're viewing
+Use JOIN queries to get the tags (plant care) from entries_tags
+Use select queries to get hardiness zone and image from entries table
+```
+
+```
 In catalog.php, use much of the same as home.php in terms of creating the table
 // use join clause to get all tags of a plant in table -> fetch it, then print it in the form of a list
 // add plant form
@@ -248,9 +255,30 @@ In catalog.php, use much of the same as home.php in terms of creating the table
   // tags vs entries - make two insert queries; 1 for entries and 1 for tags
     // use lastInsert('id) to get the entries.id of the most recent record inserted
   // uploading images - if image is not uploaded, set file name and extension to 0.jpg; else upload the image and make a path to it
+
+To log in:
+Hide everything in catalog with the if statement that checks if a user is logged in; if user is logged in then show it
 ```
 
-TODO: ...
+```
+In edit.php, basically same display as add form
+
+For getting all sticky values:
+In catalog.php use http params and get the colloquial name of the plant
+If record exists, then create variables to hold the fields and tags of that record
+If the record doesn't exist, show error message
+
+For updating plant classification:
+Query entries table to see if the plant has that class, if it does, delete that entry and insert new class
+
+For updating plant care:
+Query entries_tags table to see if the plant has that tag, if it does, don't do anything
+Otherwise, insert it as a new tag (assuming it's checked in the form)
+If tag is unchecked from original sticky values, then delete that record from the
+
+If plant doesn't exist, then show error message and redirect user back to admin catalog page
+
+```
 
 
 ### Accessibility Audit (Final Submission)
@@ -274,8 +302,66 @@ TODO
 
 > If you feel like you haven’t fully explained your design choices in the final submission, or you want to explain some functions in your site (e.g., if you feel like you make a special design choice which might not meet the final requirement), you can use the additional design justifications to justify your design choices. Remember, this is place for you to justify your design choices which you haven’t covered in the design journey. You don’t need to fill out this section if you think all design choices have been well explained in the design journey.
 
-TODO
+Redo of the database design:
+I discovered that the "tags" table wasn't supposed to contain play types, because the consumer doesn't need to see a plant tagged with such things (they won't know what it means, so it's pointless to be able to sort by them).  Therefore, I changed my database design to the following:
 
+Table: entries
+
+- id: INTEGER {PK, U, NN, AI},
+- colloquial: TEXT {U, NN},
+- genus: TEXT {U, NN},
+- plant_id: TEXT {U, NN},
+- file_ext: TEXT {NN},
+- hardiness: TEXT {NN},
+- explore_constructive: INTEGER {NN},
+- explore_sensory: INTEGER {NN},
+- physical: INTEGER {NN},
+- imaginative: INTEGER {NN},
+- restorative: INTEGER {NN},
+- expressive: INTEGER {NN},
+- play_with_rules: INTEGER {NN},
+- bio_play: INTEGER {NN}
+
+To accomodate login, I created new tables in the database reflective of what was taught in class:
+CREATE TABLE groups (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE sessions (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  user_id INTEGER NOT NULL,
+  session TEXT NOT NULL UNIQUE,
+  last_login TEXT NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+CREATE TABLE users (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  name TEXT NOT NULL,
+  username TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE memberships (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+  group_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY(group_id) REFERENCES groups(id),
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+I also added an edit page at the end of milestone 3 - the following image shows what it looks like:
+
+![Edit Page](edit-page.jpeg)
+
+The reason I decided to add an edit page was because although Tim is very good at tinkering with things, I don't think it would be usable to have to edit parts of the entry such as the tags in place of the ones already there  - how would he add a new tag?  Or delete a tag?  It's very unusable and Tim would have to click around a lot every time he wants to change a plant.  Consolidating all information in one edit page (similar to the add-plant form) would be much more usable.
+
+When Tim logs in as an administrator, I have the option of him viewing the consumer page via a click on a navigation panel link that says "Consumer View".  This link provides a way for him to navigate to the consumer page without logging out or inputting the entire URL to get to whichever page he needs to go to.  Similarly, on the consumer view (while he's still logged in) I have another navigation link that redirects him back to the administrator view.  This is very usable because now he has a way of switching in between the two modes.
+
+In the catalog page, I chose to put the add plant form at the bottom of the page instead of creating a new page because Tim, while filling out the form, may want to reference some of the records in the table.  However, since the add plant is at the bottom of the page and many entries could exist, I added a little blurb that links him to the add plant form, and similarly, if he needs to go back to the top, I added a "Back to Top" link that redirects him back to the top of the catalog, as to avoid scrolling so much.
+
+I decided to not allow the consumer to log in.  Since these are parents who are exploring on a site, I don't want them to be able to add, edit, or delete entries from the table.  Although a possible reason why I might want them to log in is that they may want to favorite their plants, or save their plants, I decided that they don't need to do so because there are many plants that are similar to each other, and it wasn't part of their audience goals.
 
 ### Self-Reflection (Final Submission)
 
