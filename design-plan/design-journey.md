@@ -286,7 +286,7 @@ If plant doesn't exist, then show error message and redirect user back to admin 
 > Tell us what issues you discovered during your accessibility audit.
 > What do you do to improve the accessibility of your site?
 
-TODO
+I didn't discover any contrast errors or other errors.  In terms of improving accessibility, I added some links on the catalog page between the top of the page and the add plant form so the user wouldn't have to keep scrolling.  In my HTML validation, I got many syntax errors, but I've fixed them all.
 
 
 ## Reflection (Final Submission)
@@ -295,7 +295,9 @@ TODO
 
 > Tell us how your final site meets the goals of your audiences. Be specific here. Tell us how you tailored your design, content, etc. to make your website usable for your personas.
 
-TODO
+The final site meets the goal of Abi, the consumer of the site.  I made sure to be detailed, since Abi may not be familiar with how the site works, and based off my design choices of putting the sorting and filtering on the side, with a button, Abi can now filter and sort without worrying if it will work (because with a button, she is sure she submitted the sort and filter form).  With viewing plant details, I put a small blurb at the top to make her aware of what exactly she's seeing, and what kind of interactivity there is on the site that may not be immediately obvious (i.e. clicking on the plant "tiles" to view more details).  With all the necessary information she sees, she can deduce which plants are best for her child. I didn't choose to put things like play type categorization in for Abi because she wouldn't know what that means, and what it might mean for the child.  All she needs to know (and is more interested in) to support her child is how to grow the plants and its basic facts such as the colloquial name, scientific name, and its classification.
+
+The final site meets the goal of Tim, the administrator of the project.  Since Tim is an administrator of the project, he is the one coordinating all the records of the plants.  Therefore, in addition to needing a table-like view of the site, he needs to be able to check the consumer side of the site to get a perspective of how his customers are viewing each plant.  This can help Tim in determining what information to put in for each plant, and in doing so, he can ensure his users that the plants are showing up as needed.  The functionality of being able to add, edit, and delete entries also aligns with his goals, because he has the ability to control which records people may want to see.  Tim can view all the information that Abi sees, but in the administrator view only, he can view the play type categorization, which is needed in his research and determination of how the plants might support the children's development.
 
 
 ### Additional Design Justifications (Final Submission)
@@ -367,13 +369,12 @@ I decided to not allow the consumer to log in.  Since these are parents who are 
 
 > Reflect on what you learned during this assignment. How have you improved from Project 2? What would you do differently next time?
 
-TODO
+I learned many things in this assignment, including HTTP string queries, logging in/out, and more advanced form designs.  In this project, I made an initial mistake of the tags being the play type tags, which is not what the consumers need to see.  Therefore, I had to redesign my database and revise a majority of my php code in a very short amount of time, as well as finish up the rest of the functionality of my website.  Therefore, if I were to do anything more differently, I think I'd read the requirements very VERY carefully, and confirm that what I'm doing is on the right track and suits the needs of the audience.
 
 
 > Take some time here to reflect on how much you've learned since you started this class. It's often easy to ignore our own progress. Take a moment and think about your accomplishments in this class. Hopefully you'll recognize that you've accomplished a lot and that you should be very proud of those accomplishments!
 
-TODO
-
+I feel very accomplished about this project.  Throughout this project, I had to think through a lot of logic to get show certain details of a plant, hide details, delete plant tags, etc., and I feel very proud of myself for being able to think through it mostly on my own, while referencing the smaller examples we did in class.
 
 ### Grading: Step-by-Step Instructions (Final Submission)
 
@@ -384,36 +385,36 @@ TODO
 
 _View all entries:_
 
-1. TODO
+1. In "/" (home), you can view all entries in the consumer view.
 
-2.
+2. In order to view all entries in the administrator's view, click "Login as Administrator" on the left side of "/", and log in with username "kyle" and password "monkey".  After hitting "Sign In", the page should redirect to "/admin-catalog", where you can see all the entries in a table format.
 
 _View all entries for a tag:_
 
-1. TODO
+1. On the left side, you can filter by plant classification.  If the plant is a shrub, click "shrub", then click filter.  All plants with the classification "shrub" should now appear.
 
-2.
+2. You can also sort by colloquial name and genus name, both in alphabetical order.
 
 _View a single entry's details:_
 
-1. TODO
+1. In "/", there are "tiles" for users to click on, with the plant colloquial name, genus name, an image, and a class.  Click on the tile and the page should redirect to "/plant-details" with the necessary information of that plant loaded.
 
-2.
+2. In "/admin-catalog" assume you've already logged in as detailed in Step 2 of how to view all entries.  All the plant's details for the administrator are loaded in the table.
 
 _How to insert and upload a new entry:_
 
-1. TODO
+1. Click "Login as Administrator" on the left side of "/", and log in with username "kyle" and password "monkey".  After hitting "Sign In", the page should redirect to "/admin-catalog", where you can see all the entries in a table format.
 
-2.
+2. At the bottom of the page, there should be a form for adding a plant.  Fill out all necessary information and then click "Add plant to catalog" button.  The page should reload with the new plant entered as a new row at the bottom of the table.
 
 _How to delete an entry:_
 
-1. TODO
+1. Click "Login as Administrator" on the left side of "/", and log in with username "kyle" and password "monkey".  After hitting "Sign In", the page should redirect to "/admin-catalog", where you can see all the entries in a table format.
 
-2.
+2. Next to each plant in the table, there should be an edit and delete button.  Click the "delete plant" button, and the page should reload, this time without the plant in the table.  The consumer view should also be reflective of that change.
 
 _How to edit and existing entry and its tags:_
 
-1. TODO
+1. Click "Login as Administrator" on the left side of "/", and log in with username "kyle" and password "monkey".  After hitting "Sign In", the page should redirect to "/admin-catalog", where you can see all the entries in a table format.
 
-2.
+2. Next to each plant in the table, there should be an edit and delete button.  Click "edit plant" button and the page should redirect to "/edit-plants", with all the original information about that plant loaded in (except pictures).  Change all the necessary information and hit the "Edit Plant in Catalog" button.  The changes should be reflected in all the information in both the consumer and administrative views.
