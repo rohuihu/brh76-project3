@@ -168,11 +168,11 @@ if (isset($_POST['add-plant'])) {
         ':explore_constructive' => (int)((bool)$explore_constructive_1),
         ':explore_sensory' => (int)((bool)$explore_sensory_1),
         ':physical' => (int)((bool)$physical_1),
-        ':imaginative' => (int)((bool)$imaginative),
-        ':restorative' => (int)((bool)$restorative),
-        ':expressive' => (int)((bool)$experessive),
-        ':play_with_rules' => (int)((bool)$play_with_rules),
-        ':bio_play' => (int)((bool)$bio_play),
+        ':imaginative' => (int)((bool)$imaginative_1),
+        ':restorative' => (int)((bool)$restorative_1),
+        ':expressive' => (int)((bool)$experessive_1),
+        ':play_with_rules' => (int)((bool)$play_with_rules_1),
+        ':bio_play' => (int)((bool)$bio_play_1),
         ':hardiness' => $hardiness
       )
     );
