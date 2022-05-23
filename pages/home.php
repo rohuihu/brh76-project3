@@ -171,7 +171,7 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
         </div>
       <?php } ?>
     </section>
-    <p id="introduction">Welcome to the Playful Plants Project Catalog! Here, you can find a list of plants that can help your child develop! Click on each plant to see its growth needs and other details!</p>
+    <p id="introduction">Welcome to the Playful Plants Project Catalog! Here, you can find a list of plants that can help your child develop! Click on each plant to see its growth needs and other details! You can also filter plants as needed.</p>
 
     <section class="catalog-filter">
       <section class="filter">
