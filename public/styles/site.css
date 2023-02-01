@@ -16,13 +16,13 @@ h1 {
 
 .align-right {
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
 }
 
 form.login .align-right {
   display: flex;
-  justify-content:flex-end;
-  float:right;
+  justify-content: flex-end;
+  float: right;
 }
 
 section.catalog-filter {
@@ -34,10 +34,10 @@ section.catalog-filter {
 }
 
 section.tiles {
-  display:grid;
+  display: grid;
   grid-gap: 15px;
   grid-template-columns: 400px 350px;
-  grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) );
+  grid-template-rows: repeat(auto-fill, minmax(350px, 1fr));
   padding-right: 20px;
   padding-left: 10px;
   text-decoration: none;
@@ -114,7 +114,8 @@ section.filter #filter-submit {
   text-align: center;
 }
 
-section.login .form-label, form.edit .form-label {
+section.login .form-label,
+form.edit .form-label {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -122,7 +123,9 @@ section.login .form-label, form.edit .form-label {
   margin: 4px;
 }
 
-#plant-genus-name, #plant-colloquial-name, #plant-class {
+#plant-genus-name,
+#plant-colloquial-name,
+#plant-class {
   text-align: center;
 }
 
@@ -179,7 +182,8 @@ table {
 }
 
 table tr {
-  background-color: #e6f1fa;;
+  background-color: #e6f1fa;
+  ;
 }
 
 table tr:nth-child(even) {
@@ -224,7 +228,8 @@ ul li {
   margin: auto;
 }
 
-#add-plant h3, #directions {
+#add-plant h3,
+#directions {
   text-align: center;
 }
 
@@ -237,12 +242,13 @@ ul li {
 }
 
 #add-plant {
-  width:40%;
+  width: 40%;
   margin: auto;
   margin-top: 50px;
 }
 
-.add-confirmation p, .add-confirmation a{
+.add-confirmation p,
+.add-confirmation a {
   text-align: center;
   font-weight: bold;
   color: #000000;
@@ -257,7 +263,7 @@ ul li {
 }
 
 #edit-plant {
-  width:40%;
+  width: 40%;
   margin: auto;
   margin-top: 50px;
 }
@@ -296,6 +302,7 @@ nav ul {
 #nav-logout {
   float: right;
 }
+
 .home-body {
   display: flex;
   flex-direction: column;
@@ -303,11 +310,12 @@ nav ul {
 
 
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .align-right {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
   }
+
   section.catalog-filter {
     display: flex;
     flex-direction: column;
@@ -317,7 +325,7 @@ nav ul {
   }
 
   section.tiles {
-    display:flex;
+    display: flex;
     /* grid-gap: 15px;
     grid-template-columns: 400px 350px; */
     /* grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) ); */
@@ -326,6 +334,7 @@ nav ul {
     padding-left: 10px;
     text-decoration: none;
   }
+
   .login {
     display: none;
   }
@@ -385,8 +394,9 @@ nav ul {
 @media screen and (min-width: 600px) and (max-width: 1100px) {
   .align-right {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
   }
+
   section.catalog-filter {
     display: flex;
     flex-direction: column;
@@ -397,7 +407,7 @@ nav ul {
 
 
   section.tiles {
-    display:flex;
+    display: flex;
     /* grid-gap: 15px;
     grid-template-columns: 400px 350px; */
     /* grid-template-rows: repeat( auto-fill, minmax(350px, 1fr) ); */
@@ -406,16 +416,18 @@ nav ul {
     padding-left: 10px;
     text-decoration: none;
   }
+
   .login {
     display: none;
   }
 
-  section.filter .radio{
+  section.filter .radio {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 4px;
   }
+
   section.filter form {
     display: inline-flex;
     flex-direction: row;
@@ -437,7 +449,7 @@ nav ul {
   }
 
   .ipad {
-    display:flex;
+    display: flex;
     flex-direction: column;
   }
 
