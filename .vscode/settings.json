@@ -3,7 +3,7 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
-    "intelephense.environment.phpVersion": "8.0.0",
+    "intelephense.environment.phpVersion": "8.2.0",
     "debug.console.collapseIdenticalLines": false,
     "webvalidator.showPopup": false,
     "webvalidator.validateOnSave": true,
