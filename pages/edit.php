@@ -1,7 +1,9 @@
 <?php $title = 'Edit - Playful Plants Project';
 
+// Initializing SQLite database
 $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
 
+// Checking if the user is logged in and is an admin
 if (is_user_logged_in() && $is_admin) {
 
   // confirmation and validity booleans
@@ -32,9 +34,11 @@ if (is_user_logged_in() && $is_admin) {
   $partial_shade = '';
   $full_shade = '';
 
+  // Getting plant record colloquial name from query parameters (when clicked on link, gets necessary info from db)
   $plant_record_colloquial = $_GET['edit'] ?? NULL;
   $update_plant = $_POST['update-id'] ?? NULL;
 
+  // Updating plant information if submitted
   if ($update_plant) {
     $records = exec_sql_query(
       $db,
@@ -43,11 +47,14 @@ if (is_user_logged_in() && $is_admin) {
         ':id' => $update_plant
       )
     )->fetchAll();
+
+    // Checking if the plant exists in the database
     // plant exists in db
     if (count($records) > 0) {
       $record = $records[0];
     }
   } elseif ($plant_record_colloquial) {
+    // Checking if the plant exists in the database
     $plant_record_colloquial = trim($plant_record_colloquial);
 
     $records = exec_sql_query(
@@ -63,6 +70,7 @@ if (is_user_logged_in() && $is_admin) {
     }
   }
 
+  // Checking if a record is retrieved
   if ($record) {
     $id = $record['id'];
     $colloquial = $record['colloquial'];
@@ -70,6 +78,7 @@ if (is_user_logged_in() && $is_admin) {
     $plant_id = $record['plant_id'];
     $hardiness = $record['hardiness'];
 
+    // Setting checkbox values based on database values
     $explore_constructive_1 = $record['explore_constructive'] == 1 ? 'checked' : '';
     $explore_sensory_1 = $record['explore_sensory'] == 1 ? 'checked' : '';
     $physical_1 = $record['physical'] == 1 ? 'checked' : '';
@@ -79,6 +88,7 @@ if (is_user_logged_in() && $is_admin) {
     $play_with_rules_1 = $record['play_with_rules'] == 1 ? 'checked' : '';
     $bio_play_1 = $record['bio_play'] == 1 ? 'checked' : '';
 
+    // Retrieving plant tags and classes from the database
     $record_tags = exec_sql_query($db, "SELECT
   entries.id AS 'entries.id',
   entries.colloquial AS 'entries.colloquial',
@@ -110,11 +120,14 @@ if (is_user_logged_in() && $is_admin) {
   (entries_tags.entry_id = entries.id) WHERE tags.id < 8 AND entries.id = :id;", array(
       ':id' => $id
     ));
+    // Handling tag and class data
     foreach ($record_classes as $record_class) {
       $class = $record_class['tags.tag_name'];
     }
 
+    // Handling sunlight data
     foreach ($record_tags as $record_tag) {
+      // Handling lifecycle data
       if ($record_tag['tags.id'] == 8) {
         $perennial = 'checked';
       }
@@ -131,6 +144,7 @@ if (is_user_logged_in() && $is_admin) {
         $full_shade = 'checked';
       }
     }
+    // Setting checked values to sticky values (for case where user filled out form wrongly, form will refresh and info is retained)
     $sticky_colloquial = $colloquial;
     $sticky_genus = $genus;
     $sticky_plant_id = $plant_id;
@@ -156,6 +170,7 @@ if (is_user_logged_in() && $is_admin) {
     $sticky_play_with_rules_1 = $record['play_with_rules'] == 1 ? 'checked' : '';
     $sticky_bio_play_1 = $record['bio_play'] == 1 ? 'checked' : '';
 
+    // Setting hidden feedback in case user violates form rules
     $colloquial_feedback_class = 'hidden';
     $genus_feedback_class = 'hidden';
     $plant_id_feedback_class = 'hidden';
@@ -191,11 +206,12 @@ if (is_user_logged_in() && $is_admin) {
 
       $form_valid = true;
 
+      // If the form isn't valid, colloquial feedback class will show error msg ("hidden" in CSS is a property that's now unhidden)
       if (empty($colloquial)) {
         $form_valid = False;
         $colloquial_feedback_class = '';
       } else {
-
+        // form is valid, build query from db to get all necessary data
         $records = exec_sql_query(
           $db,
           "SELECT * FROM entries WHERE (colloquial = :colloquial) AND (id <> :id);",
@@ -574,11 +590,12 @@ if (is_user_logged_in() && $is_admin) {
             }
           }
 
-
+          // Check if the update was successful, will show msg in HTML
           if ($result) {
             $record_updated = True;
           }
         } else {
+          // form isn't valid, apply all sticky values
           $sticky_colloquial = $colloquial;
           $sticky_genus = $genus;
           $sticky_plant_id = $plant_id;
@@ -623,17 +640,18 @@ if (is_user_logged_in() && $is_admin) {
   <?php ?>
   <h1>Edit Plant</h1>
   <?php if ($record == NULL) { ?>
-
+    <!-- Display message for unknown plant -->
     <p>Unknown plant, &quot;<?php echo htmlspecialchars($plant_record_colloquial); ?>&quot;.</p>
 
     <p>Please contact the site adminstrator for assistance, or <a href="/admin-catalog">go back to the catalog</a>.</p>
 
   <?php } elseif ($record_updated) { ?>
-
+    <!-- Display success message after plant update -->
     <p>The plant, <?php echo htmlspecialchars(strtolower($colloquial)); ?>, was successfully updated in the catalog.</p>
 
     <p><a href="/admin-catalog">Return to catalog; view all plant records.</a></p>
 
+    <!-- Form for editing plant details -->
   <?php } else { ?>
     <div id="edit-plant">
       <form class="edit" action="/edit-plants?<?php echo http_build_query(array('plant' => $plant_record_colloquial)); ?>" method="post" novalidate>
@@ -676,8 +694,10 @@ if (is_user_logged_in() && $is_admin) {
         <div>
           <p>What is the classification of the plant?</p>
         </div>
+        <!-- Feedback for plant classification -->
         <div id="feedback-class" class="feedback <?php echo $class_feedback_class; ?>">Please select a plant classification.</div>
 
+        <!-- Radio buttons for plant classification -->
         <div class="form-label">
           <input id="shrub" type="radio" name="class" value="Shrub" <?php echo htmlspecialchars($sticky_shrub); ?> /><label for="shrub">Shrub</label>
         </div>
@@ -706,6 +726,7 @@ if (is_user_logged_in() && $is_admin) {
           <p>What types of play does the plant support? Check the boxes below:</p>
         </div>
 
+        <!-- Feedback for play types -->
         <div id="feedback-play-type" class="feedback <?php echo $play_type_feedback_class; ?>">Please select at least one play type categorization.</div>
         <div class="form-label">
           <input type="checkbox" name="explore-constructive-1" id="explore-constructive-1" <?php echo htmlspecialchars($sticky_explore_constructive_1); ?> />
@@ -743,6 +764,7 @@ if (is_user_logged_in() && $is_admin) {
           <p>What care does the plant need? Check the boxes below:</p>
         </div>
 
+        <!-- Feedback for care options -->
         <div id="feedback-care" class="feedback <?php echo $care_feedback_class; ?>">Please select at least one form of care.</div>
         <div class="form-label">
           <input type="checkbox" name="perennial" id="perennial" <?php echo htmlspecialchars($sticky_perennial); ?> />
@@ -765,7 +787,9 @@ if (is_user_logged_in() && $is_admin) {
           <label for="full-shade">Needs full shade</label>
         </div>
 
+        <!-- Hidden input for plant ID -->
         <input type="hidden" name="update-id" value="<?php echo htmlspecialchars($id); ?>" />
+        <!-- Submit button for form -->
         <div class="align-right">
           <button type="submit">Edit Plant in Catalog</button>
         </div>

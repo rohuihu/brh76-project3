@@ -1,9 +1,14 @@
+<!-- Set the title for the webpage -->
 <?php $title = 'Playful Plants Project';
 
+// Initialize SQLite database and execute SQL initialization script
 $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
+
+// Uncomment the following lines if entries are needed
 // $result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
 // $records_entries = $result_entries->fetchAll();
 
+// Initialize variables for filtering options based on user input
 // for filtering
 $explore_constructive = (bool)trim($_GET['explore-constructive'] ?? NULL);
 $explore_sensory = (bool)trim($_GET['explore-sensory'] ?? NULL);
@@ -21,8 +26,12 @@ $bio_play = (bool)trim($_GET['bio-play'] ?? NULL);
 // $flower = (bool)trim($_GET['flower'] ?? NULL);
 // $groundcover = (bool)trim($_GET['groundcover'] ?? NULL);
 // $other = (bool)trim($_GET['other'] ?? NULL);
+
+// Initialize variables for class (shrub, grass, etc.) filtering
 $class = trim($_GET['class']);
 
+
+// Create sticky values for filtering options
 // make sticky values
 $sticky_explore_constructive = (empty($explore_constructive) ? '' : 'checked');
 $sticky_explore_sensory = (empty($explore_sensory) ? '' : 'checked');
@@ -33,6 +42,7 @@ $sticky_expressive = (empty($expressive) ? '' : 'checked');
 $sticky_play_with_rules = (empty($play_with_rules) ? '' : 'checked');
 $sticky_bio_play = (empty($bio_play) ? '' : 'checked');
 
+// Create sticky values for class (shrub, grass, etc.) filtering
 $sticky_shrub = ($class == 'shrub' ? 'checked' : '');
 $sticky_grass = ($class == 'grass' ? 'checked' : '');
 $sticky_vine = ($class == 'vine' ? 'checked' : '');
@@ -41,17 +51,21 @@ $sticky_flower = ($class == 'flower' ? 'checked' : '');
 $sticky_groundcover = ($class == 'groundcover' ? 'checked' : '');
 $sticky_other = ($class == 'other' ? 'checked' : '');
 
+// Get the sorting criteria from user input
 $sort_by = trim($_GET['sortby'] ?? NULL);
 
+// Create sticky values for sorting options
 $sticky_sort_colloquial_asc = ($sort_by == "Colloquial Name" ? 'checked' : '');
 $sticky_sort_genus_asc = ($sort_by == "Scientific Name" ? 'checked' : '');
 
+// Initialize parts for constructing the SQL query
 // sorting parts
 $sql_select_part = '';
 $sql_where_part = '';
 $sql_order_part = '';
 $sql_filter_expressions = array();
 
+// Initialize arrays for filtering options
 // filter
 // $filter_by_play = array();
 $filter_by_class = array();
@@ -79,6 +93,8 @@ $filter_by_class = array();
 // if ($bio_play) {
 //   array_push($filter_by_play, "(tags.id = 8)");
 // }
+
+// Check class and add corresponding filter expressions
 if ($class == 'shrub') {
   array_push($filter_by_class, "(tags.id = 1)");
 } elseif ($class == 'grass') {
@@ -95,6 +111,7 @@ if ($class == 'shrub') {
   array_push($filter_by_class, "(tags.id = 7)");
 }
 
+// Construct SQL parts for filtering
 if (count($filter_by_class) > 0) {
   $sql_select_part = "SELECT entries.id AS 'id', entries.colloquial AS 'colloquial',
   entries.genus AS 'genus',
@@ -112,6 +129,7 @@ if (count($filter_by_class) > 0) {
   (entries_tags.entry_id = entries.id)";
   $sql_where_part = " WHERE " . implode(array_merge($filter_by_class));
 } else {
+  // Construct SQL parts for the case where no filtering is applied
   // for case where user didn't want to filter by anything
   $sql_select_part = "SELECT entries.id AS 'id', entries.colloquial AS 'colloquial',
   entries.genus AS 'genus',
@@ -129,6 +147,7 @@ if (count($filter_by_class) > 0) {
   (entries_tags.entry_id = entries.id) WHERE tags.id < 8";
 }
 
+// Construct SQL part for ordering results
 // order by
 if ($sort_by == "Colloquial Name") {
   $sql_order_part = " ORDER BY colloquial ASC;";
@@ -137,6 +156,7 @@ if ($sort_by == "Colloquial Name") {
 } else {
   $sql_order_part = ";";
 }
+// Construct the final SQL query
 $sql_query = $sql_select_part . $sql_where_part . $sql_order_part;
 $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
 ?>
@@ -155,10 +175,11 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
     <?php include('includes/header.php'); ?>
     <section class="login">
       <?php if (is_user_logged_in()) { ?>
-
+        <!-- Display navigation for logged-in users -->
         <div class="nav">
           <nav>
             <ul>
+              <!-- Links for admin view and logout -->
               <a href="/admin-catalog">
                 <li>Back to Administrator View</li>
               </a>
@@ -170,15 +191,20 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
           </nav>
         </div>
       <?php } ?>
+
+      <!-- Introduction section -->
     </section>
     <p id="introduction">Welcome to the Playful Plants Project Catalog! Here, you can find a list of plants that can help your child develop! Click on each plant to see its growth needs and other details! You can also filter plants as needed.</p>
 
+    <!-- Section for catalog filters -->
     <section class="catalog-filter">
+      <!-- Form for sorting and filtering -->
       <section class="filter">
         <div class="align-block">
           <form id="filter-form" method="get" action="/" novalidate>
             <div class="ipad">
               <h3>Sort By:</h3>
+              <!-- Options for sorting by colloquial and scientific names -->
               <div class="filter-ipad">
                 <div class="radio">
                   <input id="sort-colloquial" type="radio" name="sortby" value="Colloquial Name" <?php echo $sticky_sort_colloquial_asc; ?> /><label for="sort-colloquial">Colloquial Name</label>
@@ -190,7 +216,9 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
 
               <h3>Filter By:</h3>
               <h4>Classification</h4>
+              <!-- Options for filtering by plant classification -->
               <div class="filter-ipad">
+                <!-- Each radio button corresponds to a plant classification -->
                 <div class="radio">
                   <input type="radio" name="class" id="shrub" value="shrub" <?php echo htmlspecialchars($sticky_shrub) ?> />
                   <label for="shrub">Shrub</label>
@@ -220,6 +248,7 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
                   <label for="other">Other (Moss, fern, vegetables, etc.)</label>
                 </div>
               </div>
+              <!-- Submit button for the filter form -->
               <div class="align-right">
                 <input id="filter-submit" name="filter-submit" type="submit" value="Filter" />
               </div>
@@ -227,23 +256,30 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
 
           </form>
         </div>
+        <!-- Display login link if user is not logged in -->
         <?php if (!is_user_logged_in()) { ?>
           <div class="login">
             <h1><a href="/admin-catalog">Login as Administrator</a></h1>
           </div>
         <?php } ?>
       </section>
+
+      <!-- Section for displaying plant tiles -->
       <!-- All images from the plant photos zip folder except personal artwork -->
       <section class="tiles">
-
+        <!-- Loop through plant records and display corresponding tiles -->
         <?php foreach ($records_entries as $record_entries) { ?>
           <div class="card">
+            <!-- Link to the plant details page with corresponding ID -->
             <a href="/plant-details?<?php echo http_build_query(array(
                                       'id' => $record_entries['id']
                                     )) ?>">
               <div>
+                <!-- Display colloquial and genus names -->
                 <h1><?php echo htmlspecialchars($record_entries["colloquial"]) ?></h1>
                 <h2><?php echo htmlspecialchars($record_entries["genus"]) ?></h2>
+
+                <!-- Display plant classification based on tag name -->
                 <h3>General Classification:
                   <?php if (htmlspecialchars($record_entries["tags.tag_name"]) == 'Shrub') { ?>
                     Shrub
@@ -268,6 +304,7 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
                   <?php } ?>
 
                 </h3>
+                <!-- Display plant image -->
                 <!-- Image source: Personal artwork by Bella Hu -->
                 <img src="/public/uploads/entries/<?php echo htmlspecialchars($record_entries["image_id"] . "." . $record_entries["file_ext"]) ?>" alt="Image of <?php echo htmlspecialchars($record_entries["colloquial"]) ?>">
 
@@ -275,6 +312,8 @@ $records_entries = exec_sql_query($db, $sql_query)->fetchAll();
             </a>
           </div>
         <?php } ?>
+
+        <!-- Display message if no plant records are found -->
         <?php
         if (count($records_entries) == 0) { ?>
           <p>No plant records found.</p>

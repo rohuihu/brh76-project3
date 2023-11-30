@@ -1,10 +1,15 @@
 <?php $title = 'Catalog - Playful Plants Project';
+// Init db
 $db = init_sqlite_db('db/site.sqlite', 'db/init.sql');
+
+// Fetch all entries from the 'entries' table
 $result_entries = exec_sql_query($db, 'SELECT * FROM entries;');
 $records_entries = $result_entries->fetchAll();
 
+// Define the maximum file size for image uploads
 define("MAX_FILE_SIZE", 1000000);
 
+// Initialization of various variables and flags for form validation
 // confirmation and validity booleans
 $show_confirmation = False;
 $show_form = True;
@@ -14,6 +19,7 @@ $plant_id_not_unique = False;
 $colloquial_not_unique = False;
 $genus_not_unique = False;
 
+// Initialization of form input values
 // values
 $colloquial = '';
 $genus = '';
@@ -32,6 +38,7 @@ $upload_filename = "0";
 $upload_ext = "jpg";
 $hardiness = "";
 
+// Initialization of feedback classes for form validation
 // feedback classes
 $colloquial_feedback_class = 'hidden';
 $genus_feedback_class = 'hidden';
@@ -41,8 +48,10 @@ $class_feedback_class = 'hidden';
 $care_feedback_class = 'hidden';
 $hardiness_feedback_class = 'hidden';
 
+// Handling form submission to add a new plant
 // for adding a plant
 if (isset($_POST['add-plant'])) {
+  // Retrieve and trim form input values
   $colloquial = trim($_POST['colloquial-name']);
   $genus = trim($_POST['scientific-name']);
   $plant_id = trim($_POST['plant-id']);
@@ -62,13 +71,15 @@ if (isset($_POST['add-plant'])) {
   $full_shade = trim($_POST['full-shade']);
   $hardiness = trim($_POST['hardiness']);
 
-
+  // Validate form inputs
   $form_valid = True;
 
+  // Validation for colloquial name
   if (empty($colloquial)) {
     $form_valid = False;
     $colloquial_feedback_class = '';
   } else {
+    // Check if colloquial name already exists in the catalog
     $records = exec_sql_query(
       $db,
       "SELECT * FROM entries WHERE (colloquial = :colloquial);",
@@ -119,11 +130,14 @@ if (isset($_POST['add-plant'])) {
     $hardiness_feedback_class = '';
   }
 
+  // Checkboxes validation
   // At least one check box checked:
   if (empty($explore_constructive_1) && empty($explore_sensory_1) && empty($physical_1) && empty($imaginative_1) && empty($restorative_1) && empty($expressive_1) && empty($play_with_rules_1) && empty($bio_play_1)) {
     $form_valid = False;
     $play_type_feedback_class = '';
   }
+
+  // Perennial, annual, and care checkboxes validation
   if (empty($perennial) && empty($annual) && empty($full_sun) && empty($partial_shade) && empty($full_shade)) {
     $form_valid = False;
     $care_feedback_class = '';
@@ -152,7 +166,7 @@ if (isset($_POST['add-plant'])) {
   //   }
   // }
 
-
+  // If the form is valid, proceed to add the plant to the database
   if ($form_valid) {
     $show_confirmation = True;
     $show_form = False;
@@ -380,6 +394,7 @@ $records_entries = $result_entries->fetchAll();
                   <ul>
                     <li>
                       <div>
+                        <!-- edit button -->
                         <form class="edit" method="get" action="/edit-plants" novalidate>
 
                           <input type="hidden" name="edit" value="<?php echo htmlspecialchars($record_entry['colloquial']); ?>" />
@@ -392,6 +407,7 @@ $records_entries = $result_entries->fetchAll();
                       </div>
                     </li>
                     <li>
+                      <!-- delete button -->
                       <form class="delete" method="get" action="/admin-catalog" novalidate>
 
                         <input type="hidden" name="delete" value="<?php echo htmlspecialchars($record_entry['id']); ?>" />
